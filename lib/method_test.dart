@@ -10,6 +10,7 @@ import 'model/categories_getlist.dart';
 import 'package:network_to_file_image/network_to_file_image.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -36,8 +37,7 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('登录'),
                 onPressed: () => AppManager.loginMgr.login()),
             RaisedButton(
-                child: const Text('mdns'),
-                onPressed: () => Navigator.of(context).pushNamed('/mdns')),
+                child: const Text('mdns'), onPressed: () => assetsToFiles()),
             RaisedButton(
                 child: const Text('card'),
                 onPressed: () => Navigator.of(context).pushNamed('/card')),
@@ -73,7 +73,7 @@ void searchDevices() async {
 
 void _piwigoGetlist() {
   PiwigoApiService.getData(
-      'http://192.168.1.3', PiwigoApiService.pwg_categories_getList,
+      'http://192.168.1.7', PiwigoApiService.pwg_categories_getList,
       success: (result) async {
     //print(result);
     CategoriesGetListResponse response =
@@ -84,4 +84,40 @@ void _piwigoGetlist() {
   }, complete: () {
     print('completed!');
   });
+}
+
+Future<List<File>> assetsToFiles() async {
+  List<Asset> assetArray = [];
+  List<File> fileImageArray = [];
+
+  try {
+    assetArray = await MultiImagePicker.pickImages(
+      maxImages: 300,
+      enableCamera: true,
+      selectedAssets: assetArray,
+      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+      materialOptions: MaterialOptions(
+        actionBarColor: "",
+        actionBarTitle: "ImagePicker",
+        allViewTitle: "All Photos",
+        useDetailsView: false,
+        selectCircleStrokeColor: "#000000",
+      ),
+    );
+  } on Exception catch (e) {
+    print(e.toString());
+  }
+
+  assetArray.forEach((imageAsset) async {
+    final filePath =
+        await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+
+    File tempFile = File(filePath);
+    if (tempFile.existsSync()) {
+      fileImageArray.add(tempFile);
+      print(tempFile.path);
+    }
+  });
+
+  return fileImageArray;
 }

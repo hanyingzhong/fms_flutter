@@ -68,40 +68,40 @@ class _MultiPickImagesPageState extends State<MultiPickImagesPage> {
     });
   }
 
-  // Future<List<File>> assetsToFiles() async {
-  //   List<Asset> assetArray = [];
-  //   List<File> fileImageArray = [];
+  Future<List<File>> assetsToFiles() async {
+    List<Asset> assetArray = [];
+    List<File> fileImageArray = [];
 
-  //   try {
-  //     assetArray = await MultiImagePicker.pickImages(
-  //       maxImages: 300,
-  //       enableCamera: true,
-  //       selectedAssets: assetArray,
-  //       cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-  //       materialOptions: MaterialOptions(
-  //         actionBarColor: "",
-  //         actionBarTitle: "ImagePicker",
-  //         allViewTitle: "All Photos",
-  //         useDetailsView: false,
-  //         selectCircleStrokeColor: "#000000",
-  //       ),
-  //     );
-  //   } on Exception catch (e) {
-  //     print(e.toString());
-  //   }
+    try {
+      assetArray = await MultiImagePicker.pickImages(
+        maxImages: 300,
+        enableCamera: true,
+        selectedAssets: assetArray,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "",
+          actionBarTitle: "ImagePicker",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      print(e.toString());
+    }
 
-  //   assetArray.forEach((imageAsset) async {
-  //     final filePath =
-  //         await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+    assetArray.forEach((imageAsset) async {
+      final filePath =
+          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
 
-  //     File tempFile = File(filePath);
-  //     if (tempFile.existsSync()) {
-  //       fileImageArray.add(tempFile);
-  //     }
-  //   });
+      File tempFile = File(filePath);
+      if (tempFile.existsSync()) {
+        fileImageArray.add(tempFile);
+      }
+    });
 
-  //   return fileImageArray;
-  // }
+    return fileImageArray;
+  }
 
   @override
   Widget build(BuildContext context) {

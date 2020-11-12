@@ -45,6 +45,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                     onLoading: model.loadMore,
                     enablePullUp: true,
                     child: Wrap(
+                      alignment: WrapAlignment.center,
                       children: _buildCategoriesList(context, model),
                     )),
               ));
@@ -89,29 +90,32 @@ List<Widget> _buildCategoriesList(
                 height: 220.0,
                 padding: EdgeInsets.fromLTRB(10.0, 10.0, 1.0, 1.0),
                 child: Card(
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Container(
-                      // margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                      // padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                      height: 20.0,
-                      child: Text(element.name)
-                      // ListTile(
-                      //   title: Center(
-                      //       child: Text(element.name,
-                      //           style: TextStyle(
-                      //               fontWeight: FontWeight.w200,
-                      //               fontSize: 12,
-                      //               decoration: TextDecoration.none))),
-                      // )
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                      Container(
+                          // margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                          // padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                          height: 20.0,
+                          child: Text(element.name)
+                          // ListTile(
+                          //   title: Center(
+                          //       child: Text(element.name,
+                          //           style: TextStyle(
+                          //               fontWeight: FontWeight.w200,
+                          //               fontSize: 12,
+                          //               decoration: TextDecoration.none))),
+                          // )
+                          ),
+                      Image(
+                        image: NetworkToFileImage(
+                          url: element.local.thumb.location,
+                          file: File(element.local.large.location),
+                          debug: false,
+                        ),
                       ),
-                  Image(
-                    image: NetworkToFileImage(
-                      url: element.local.thumb.location,
-                      file: File(element.local.large.location),
-                      debug: false,
-                    ),
-                  ),
-                ]))))));
+                    ]))))));
   });
 
   return list;
