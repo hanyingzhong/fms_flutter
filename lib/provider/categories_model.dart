@@ -87,7 +87,7 @@ class PhotoCategoriesPageModel with ChangeNotifier {
 
   refresh({bool retry = false}) async {
     PiwigoApiService.getData(
-        'http://192.168.1.6', PiwigoApiService.pwg_categories_getList,
+        'http://192.168.1.7', PiwigoApiService.pwg_categories_getList,
         success: (result) async {
       //print(result);
       CategoriesGetListResponse response =

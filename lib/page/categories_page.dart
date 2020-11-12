@@ -84,18 +84,26 @@ List<Widget> _buildCategoriesList(
         onTap: () => {NavigatorManager.to(CategoryDeailPage(element.id))},
         child: SafeArea(
             child: Container(
-                width: 132.0,
+                margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                width: 160.0,
                 height: 220.0,
+                padding: EdgeInsets.fromLTRB(10.0, 10.0, 1.0, 1.0),
                 child: Card(
-                    child: Column(children: [
-                  ListTile(
-                    title: Center(
-                        child: Text(element.name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w200,
-                                fontSize: 16,
-                                decoration: TextDecoration.underline))),
-                  ),
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Container(
+                      // margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                      // padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                      height: 20.0,
+                      child: Text(element.name)
+                      // ListTile(
+                      //   title: Center(
+                      //       child: Text(element.name,
+                      //           style: TextStyle(
+                      //               fontWeight: FontWeight.w200,
+                      //               fontSize: 12,
+                      //               decoration: TextDecoration.none))),
+                      // )
+                      ),
                   Image(
                     image: NetworkToFileImage(
                       url: element.local.thumb.location,

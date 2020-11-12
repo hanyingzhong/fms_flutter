@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fms_flutter/imagepick.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
+import 'package:get/get.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'api/piwigo_service.dart';
 import 'model/categories_getlist.dart';
 import 'package:network_to_file_image/network_to_file_image.dart';
@@ -28,7 +31,7 @@ class _TestPageState extends State<TestPage> {
             RaisedButton(child: const Text('相册'), onPressed: _piwigoGetlist),
             RaisedButton(
                 child: const Text('piwigo'),
-                onPressed: () => Navigator.of(context).pushNamed('/dialog')),
+                onPressed: () => Get.to(MultiPickImagesPage())),
             RaisedButton(
                 child: const Text('登录'),
                 onPressed: () => AppManager.loginMgr.login()),
