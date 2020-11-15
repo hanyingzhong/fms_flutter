@@ -85,10 +85,10 @@ List<Widget> _buildCategoriesList(
         onTap: () => {NavigatorManager.to(CategoryDeailPage(element.id))},
         child: SafeArea(
             child: Container(
-                margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                width: 160.0,
+                //margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
+                width: MediaQuery.of(context).size.width / 2, //160.0,
                 height: 220.0,
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 1.0, 1.0),
+                //padding: EdgeInsets.fromLTRB(10.0, 10.0, 1.0, 1.0),
                 child: Card(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

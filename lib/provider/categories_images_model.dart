@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fms_flutter/api/Piwigo_service.dart';
 import 'package:fms_flutter/model/categories_getimages.dart';
 import 'package:fms_flutter/repository/repo_images.dart';
+import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/file_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,7 +21,7 @@ class PhotoCategoryImagesPageModel with ChangeNotifier {
 
   refresh({bool retry = false}) async {
     PiwigoApiService.getData(
-        'http://192.168.1.7',
+        'http://${AppManager.getServer()}',
         PiwigoApiService.pwg_categories_getImages +
             this.categoryIndex.toString(), success: (result) async {
       //print(result);
@@ -35,9 +36,9 @@ class PhotoCategoryImagesPageModel with ChangeNotifier {
               element.derivatives.square.height,
               element.derivatives.square.url),
           RepositoryImageDesc(
-              element.derivatives.xxlarge.width,
-              element.derivatives.xxlarge.height,
-              element.derivatives.xxlarge.url),
+              element.derivatives.medium.width,
+              element.derivatives.medium.height,
+              element.derivatives.medium.url),
         );
 
         RepositoryImage thumbLocation = RepositoryImage(
@@ -47,10 +48,10 @@ class PhotoCategoryImagesPageModel with ChangeNotifier {
               FileUtils.generateLocalFileName(
                   FileUtils.getFileName(element.derivatives.square.url))),
           RepositoryImageDesc(
-              element.derivatives.xxlarge.width,
-              element.derivatives.xxlarge.height,
+              element.derivatives.medium.width,
+              element.derivatives.medium.height,
               FileUtils.generateLocalFileName(
-                  FileUtils.getFileName(element.derivatives.xxlarge.url))),
+                  FileUtils.getFileName(element.derivatives.medium.url))),
         );
 
         RepositoryImagePair image =

@@ -4,6 +4,7 @@ import 'package:fms_flutter/api/Piwigo_service.dart';
 import 'package:fms_flutter/model/categories_getlist.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/repository/repo_images.dart';
+import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/file_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -86,9 +87,8 @@ class PhotoCategoriesPageModel with ChangeNotifier {
       RefreshController(initialRefresh: false);
 
   refresh({bool retry = false}) async {
-    PiwigoApiService.getData(
-        'http://192.168.1.7', PiwigoApiService.pwg_categories_getList,
-        success: (result) async {
+    PiwigoApiService.getData('http://${AppManager.getServer()}',
+        PiwigoApiService.pwg_categories_getList, success: (result) async {
       //print(result);
       CategoriesGetListResponse response =
           CategoriesGetListResponse.fromJson(result);

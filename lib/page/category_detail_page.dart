@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/provider/categories_images_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/repository/repo_images.dart';
 import 'package:fms_flutter/widget/loading_container.dart';
 import 'package:fms_flutter/widget/provider_widget.dart';
 import 'package:network_to_file_image/network_to_file_image.dart';
@@ -39,7 +40,7 @@ class _CategoryPageState extends State<CategoryDeailPage>
                           child: CustomScrollView(
                         slivers: <Widget>[
                           SliverGrid.count(
-                            crossAxisCount: 4,
+                            crossAxisCount: 3,
                             children:
                                 List.generate(model.images.length, (index) {
                               return _buildImage(context, model, child, index);
@@ -73,18 +74,46 @@ class _CategoryPageState extends State<CategoryDeailPage>
 Widget _buildImage(BuildContext context, PhotoCategoryImagesPageModel model,
     Widget child, int index) {
   return Container(
-    width: 200,
-    height: 20,
-    color: Colors.white,
-    padding: EdgeInsets.all(1.0),
-    alignment: Alignment.center,
-    child: Image(
-      image: NetworkToFileImage(
-        url: model.images[index].network.thumb.location,
-        file: File(model.images[index].local.thumb.location),
-        debug: true,
-      ),
-      fit: BoxFit.fill,
-    ),
-  );
+      width: 200,
+      height: 20,
+      color: Colors.white,
+      padding: EdgeInsets.all(1.0),
+      alignment: Alignment.center,
+      child: GestureDetector(
+        onTap: () {
+          _showPhoto(context, model.images[index]);
+        },
+        child: Image(
+          image: NetworkToFileImage(
+            url: model.images[index].network.thumb.location,
+            file: File(model.images[index].local.thumb.location),
+            debug: true,
+          ),
+          fit: BoxFit.fill,
+        ),
+      ));
+}
+
+_showPhoto(BuildContext context, RepositoryImagePair info) {
+  Navigator.push(context,
+      MaterialPageRoute<void>(builder: (BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('===', maxLines: 2),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Hero(
+            tag: '===',
+            child: Image(
+              image: NetworkToFileImage(
+                url: info.network.large.location,
+                file: File(info.local.large.location),
+                debug: true,
+              ),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ));
+  }));
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fms_flutter/general_dialog.dart';
 import 'package:fms_flutter/imagepick.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
@@ -39,8 +40,8 @@ class _TestPageState extends State<TestPage> {
             RaisedButton(
                 child: const Text('mdns'), onPressed: () => assetsToFiles()),
             RaisedButton(
-                child: const Text('card'),
-                onPressed: () => Navigator.of(context).pushNamed('/card')),
+                child: const Text('dialog'),
+                onPressed: () => Get.to(GeneralDialogPage())),
             RaisedButton(
                 child: const Text('qrview'),
                 onPressed: () => Navigator.of(context).pushNamed('/qrview')),
