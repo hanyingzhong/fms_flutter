@@ -7,7 +7,7 @@ class RepositoryImagePair {
   RepositoryImage local;
   RepositoryImage network;
 
-  RepositoryImagePair(this.id, this.local, this.network);
+  RepositoryImagePair({this.id, this.local, this.network});
 }
 
 class RepositoryImage {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,10 @@ class AppManager {
     initDio();
     loginMgr = LoginMgr(serverHost, username: 'root', password: 'root');
     loginMgr.login();
+    prefs.setString('CurrDeivceName', 'DESKTOP-TR4ANSP');
+    fmsDeviceMgr.setCurrentDevice(
+        currentDevice:
+            FmsDevice(name: prefs.get('CurrDeivceName'), host: '192.168.1.7'));
   }
 
   static initDio() {

@@ -6,6 +6,8 @@ import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/repository/repo_images.dart';
 import 'package:fms_flutter/widget/loading_container.dart';
 import 'package:fms_flutter/widget/provider_widget.dart';
+import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:network_to_file_image/network_to_file_image.dart';
 //import 'package:network_to_file_image/network_to_file_image.dart';
 
@@ -103,8 +105,10 @@ _showPhoto(BuildContext context, RepositoryImagePair info) {
           centerTitle: true,
         ),
         body: Center(
-          child: Hero(
-            tag: '===',
+            child: Hero(
+          tag: '===',
+          child: InkWell(
+            onTap: () => {Navigator.pop(context)},
             child: Image(
               image: NetworkToFileImage(
                 url: info.network.large.location,
@@ -114,6 +118,6 @@ _showPhoto(BuildContext context, RepositoryImagePair info) {
               fit: BoxFit.fill,
             ),
           ),
-        ));
+        )));
   }));
 }

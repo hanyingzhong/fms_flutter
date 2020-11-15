@@ -54,8 +54,8 @@ class PhotoCategoryImagesPageModel with ChangeNotifier {
                   FileUtils.getFileName(element.derivatives.medium.url))),
         );
 
-        RepositoryImagePair image =
-            RepositoryImagePair(element.id, thumbLocation, network);
+        RepositoryImagePair image = RepositoryImagePair(
+            id: element.id, local: thumbLocation, network: network);
         images.add(image);
       });
 
