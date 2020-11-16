@@ -4,6 +4,7 @@ import 'package:fms_flutter/config/string.dart';
 import 'package:fms_flutter/page/discovery_page.dart';
 import 'package:fms_flutter/page/home_page.dart';
 import 'package:fms_flutter/page/categories_page.dart';
+import 'package:fms_flutter/page/mypage.dart';
 // import 'package:flutter_eyepetizer/page/mine_page.dart';
 // import 'package:flutter_eyepetizer/page/rank_page.dart';
 import 'package:fms_flutter/util/toast_util.dart';
@@ -30,8 +31,7 @@ class _TabNavigationState extends State<TabNavigation> {
               HomePage(),
               DiscoveryPage(),
               PhotoCategoriesPage(),
-              // RankPage(),
-              // MinePage()
+              MyPage()
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -50,8 +50,8 @@ class _TabNavigationState extends State<TabNavigation> {
                     'images/ic_discovery_selected.png', 1),
                 _bottomItem(DString.hot, 'images/ic_hot_normal.png',
                     'images/ic_hot_selected.png', 2),
-                // _bottomItem(DString.mime, 'images/ic_mine_normal.png',
-                //     'images/ic_mine_selected.png', 3)
+                _bottomItem(DString.mime, 'images/ic_mine_normal.png',
+                    'images/ic_mine_selected.png', 3)
               ]),
         ),
         onWillPop: _onWillPop);

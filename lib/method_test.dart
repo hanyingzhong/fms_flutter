@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/general_dialog.dart';
 import 'package:fms_flutter/imagepick.dart';
+import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -53,6 +54,8 @@ class _TestPageState extends State<TestPage> {
 
 void _startScan() {
   print('aaaaaaaaaaaaaaaaaaaaaaaa');
+  var deviceMgr = Get.find<FmsDeviceMgr>();
+  print('new...............' + deviceMgr.currentDevice.toString());
   searchDevices();
 }
 
