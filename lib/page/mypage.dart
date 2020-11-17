@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/config/color.dart';
 import 'package:fms_flutter/components/expansion_tile.dart' as Comp;
+import 'package:fms_flutter/page/devicemanage_page.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage extends StatefulWidget {
@@ -65,13 +67,13 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
       child: new Column(
         children: <Widget>[
           new ListTile(
-            title: new Text('点个star', style: new TextStyle(fontSize: 18.0)),
+            title: new Text('设备管理', style: new TextStyle(fontSize: 18.0)),
             trailing: new Icon(
               Icons.keyboard_arrow_right,
               color: Colors.grey,
             ),
             onTap: () {
-              //launch("https://github.com/fujianlian/GankFlutter");
+              Get.to(DeviceManagePage());
             },
           ),
           Padding(
