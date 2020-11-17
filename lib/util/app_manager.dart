@@ -20,7 +20,7 @@ class AppManager {
   static LoginMgr loginMgr;
 
   static String getServer() {
-    return serverHost;
+    return Get.find<FmsDeviceMgr>().currentDevice.host;
   }
 
   static Directory getAppDir() {
@@ -36,15 +36,17 @@ class AppManager {
     await getApplcationDirectory();
     print('++++' + appDocsDir.toString());
     initDio();
-    loginMgr = LoginMgr(serverHost, username: 'root', password: 'root');
-    loginMgr.login();
     prefs.setString('CurrDeivceName', 'DESKTOP-TR4ANSP');
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);
     var devMgr = Get.find<FmsDeviceMgr>();
     // devMgr.setCurrentDevice(
     //     currentDevice:
     //         FmsDevice(name: prefs.get('CurrDeivceName'), host: '192.168.1.7'));
-    devMgr.searchCurrentDevice(prefs.get('CurrDeivceName'));
+    await devMgr.searchCurrentDevice(prefs.get('CurrDeivceName'));
+
+    loginMgr = LoginMgr(Get.find<FmsDeviceMgr>().currentDevice.host,
+        username: 'root', password: 'root');
+    loginMgr.login();
   }
 
   static initDio() {

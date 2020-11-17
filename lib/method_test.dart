@@ -46,6 +46,9 @@ class _TestPageState extends State<TestPage> {
             RaisedButton(
                 child: const Text('qrview'),
                 onPressed: () => Navigator.of(context).pushNamed('/qrview')),
+            RaisedButton(
+                child: const Text('dropdown'),
+                onPressed: () => Get.to(TestDropdownButton())),
             //GridView(),
           ],
         ));
@@ -124,4 +127,36 @@ Future<List<File>> assetsToFiles() async {
   });
 
   return fileImageArray;
+}
+
+class TestDropdownButton extends StatefulWidget {
+  @override
+  _TestDropdownButtonState createState() => _TestDropdownButtonState();
+}
+
+class _TestDropdownButtonState extends State<TestDropdownButton> {
+  String dropdownValue = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: DropdownButton<String>(
+          value: dropdownValue,
+          onChanged: (String newValue) {
+            setState(() {
+              dropdownValue = newValue;
+            });
+          },
+          items: <String>['One', 'Two', 'Free', 'Four']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 }

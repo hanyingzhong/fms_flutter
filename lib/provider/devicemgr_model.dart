@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class FmsDevice {
   String name;
   String host;
+  bool connected = false;
 
-  FmsDevice({this.name, this.host});
+  FmsDevice({this.name, this.host, this.connected});
   @override
   String toString() {
     return name + '-' + host;
@@ -51,7 +52,7 @@ class FmsDeviceMgr {
     mgr.add(device);
   }
 
-  void searchCurrentDevice(String deviceName) async {
+  Future<void> searchCurrentDevice(String deviceName) async {
     bool connect;
     String newHost;
     try {
@@ -62,7 +63,8 @@ class FmsDeviceMgr {
         newHost = result[0].address;
         print(newHost);
         setCurrentDevice(
-            currentDevice: FmsDevice(name: deviceName, host: newHost));
+            currentDevice:
+                FmsDevice(name: deviceName, host: newHost, connected: true));
       }
     } on SocketException catch (_) {
       connect = false;

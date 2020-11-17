@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fms_flutter/config/color.dart';
 import 'package:fms_flutter/page/category_detail_page.dart';
 import 'package:fms_flutter/provider/categories_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
@@ -38,7 +39,25 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
               error: model.error,
               retry: model.retry,
               child: Scaffold(
-                appBar: AppBar(),
+                appBar: AppBar(
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      tooltip: "搜索",
+                      onPressed: () {
+                        print("搜索");
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.link),
+                      tooltip: "创建相册",
+                      onPressed: () async {
+                        await _popupMenu();
+                      },
+                    ),
+                    //_nomalPopMenu()
+                  ],
+                ),
                 body: SmartRefresher(
                     controller: model.refreshController,
                     onRefresh: model.refresh,
@@ -54,6 +73,102 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  Future<void> _popupMenu() async {
+    var result = await showMenu(
+        color: Colors.grey[800],
+        context: context,
+        position: RelativeRect.fromLTRB(600.0, 80.0, 0.0, 0.0),
+//    position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 10.0),
+        items: //_buildPopupMenu());
+            <PopupMenuEntry<String>>[
+          PopupMenuItem<String>(
+              value: 'value01',
+              child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                  leading: Icon(
+                    Icons.message,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    '创建相册',
+                    style: TextStyle(color: Colors.white),
+                  ))),
+          PopupMenuItem<String>(
+              value: 'value02',
+              child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                  leading: Icon(
+                    Icons.group_add,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Item One',
+                    style: TextStyle(color: Colors.white),
+                  ))),
+          PopupMenuDivider(height: 20.0),
+          PopupMenuItem<String>(
+              value: 'value03',
+              child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                  leading: Icon(
+                    Icons.cast_connected,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Item One',
+                    style: TextStyle(color: Colors.white),
+                  ))),
+        ]);
+    print(result);
+  }
+
+  // // Widget _nomalPopMenu() {
+  // //   return PopupMenuButton<String>(
+  // //       color: Colors.grey[800], //Colors.black87, //Colors.black,
+  // //       //offset: Offset(10, 10),
+  // //       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+  // //             PopupMenuItem<String>(
+  // //                 value: 'value01',
+  // //                 child: ListTile(
+  // //                     leading: Icon(
+  // //                       Icons.message,
+  // //                       color: Colors.white,
+  // //                     ),
+  // //                     title: Text(
+  // //                       '创建相册',
+  // //                       style: TextStyle(color: Colors.white),
+  // //                     ))),
+  // //             PopupMenuItem<String>(
+  // //                 value: 'value02',
+  // //                 child: ListTile(
+  // //                     leading: Icon(
+  // //                       Icons.group_add,
+  // //                       color: Colors.white,
+  // //                     ),
+  // //                     title: Text(
+  // //                       'Item One',
+  // //                       style: TextStyle(color: Colors.white),
+  // //                     ))),
+  // //             PopupMenuDivider(height: 20.0),
+  // //             PopupMenuItem<String>(
+  // //                 value: 'value03',
+  // //                 child: ListTile(
+  // //                     leading: Icon(
+  // //                       Icons.cast_connected,
+  // //                       color: Colors.white,
+  // //                     ),
+  // //                     title: Text(
+  // //                       'Item One',
+  // //                       style: TextStyle(color: Colors.white),
+  // //                     ))),
+  // //           ],
+  // //       onSelected: (String value) {
+  // //         setState(() {
+  // //           print(value);
+  // //         });
+  // //       });
+  // }
 }
 
 Widget _buildCategory(
