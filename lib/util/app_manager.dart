@@ -38,6 +38,8 @@ class AppManager {
     initDio();
     prefs.setString('CurrDeivceName', 'DESKTOP-TR4ANSP');
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);
+    Get.put<DeviceLoginInfo>(DeviceLoginInfo(), permanent: true);
+
     var devMgr = Get.find<FmsDeviceMgr>();
     // devMgr.setCurrentDevice(
     //     currentDevice:

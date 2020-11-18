@@ -2,6 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+class DeviceLoginInfo {
+  String deviceName;
+  String loginUser;
+  String loginPassword;
+  DeviceLoginInfo({this.deviceName, this.loginUser, this.loginPassword});
+}
+
 class FmsDevice {
   String name;
   String host;
