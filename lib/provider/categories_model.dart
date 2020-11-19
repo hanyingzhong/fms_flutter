@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/api/Piwigo_service.dart';
 import 'package:fms_flutter/model/categories_getlist.dart';
@@ -142,5 +143,23 @@ class PhotoCategoriesPageModel with ChangeNotifier {
       refreshController.loadNoData();
       return;
     }
+  }
+
+  add({String name}) async {
+    var options = Options();
+    options.responseType = ResponseType.json;
+
+    var queryParameters = {
+      'format': 'json',
+      'method': PiwigoApiService.pwg_session_login,
+      'name': name,
+    };
+
+    Response response = await AppManager.dio.get(
+        "http://${AppManager.getServer()}" +
+            PiwigoApiService.pwg_categories_add +
+            name,
+        options: options);
+    print(response);
   }
 }

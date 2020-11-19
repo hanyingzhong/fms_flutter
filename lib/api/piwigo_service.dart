@@ -17,6 +17,7 @@ class PiwigoApiService {
   static const pwg_categories_getList = '${pwg_method}pwg.categories.getList';
   static const pwg_categories_getImages =
       '${pwg_method}pwg.categories.getImages&cat_id=';
+  static const pwg_categories_add = '${pwg_method}pwg.categories.add&name=';
 
   static const pwg_session_login = 'pwg.session.login';
   static const pwg_session_getStatus = '${pwg_method}pwg.session.getStatus';
@@ -30,6 +31,7 @@ class PiwigoApiService {
       {Function success, Function fail, Function complete}) async {
     try {
       var url = host + method;
+      print(url);
       var response = await http
           .get(url, headers: HttpConstant.httpHeader)
           .timeout(Duration(milliseconds: 1500));

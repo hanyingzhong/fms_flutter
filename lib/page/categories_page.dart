@@ -52,7 +52,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                       icon: Icon(Icons.link),
                       tooltip: "创建相册",
                       onPressed: () async {
-                        await _popupMenu();
+                        await _popupMenu(context, model);
                       },
                     ),
                     //_nomalPopMenu()
@@ -74,7 +74,8 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
   @override
   bool get wantKeepAlive => true;
 
-  Future<void> _popupMenu() async {
+  Future<void> _popupMenu(
+      BuildContext context, PhotoCategoriesPageModel model) async {
     var result = await showMenu(
         color: Colors.grey[800],
         context: context,
@@ -83,7 +84,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
         items: //_buildPopupMenu());
             <PopupMenuEntry<String>>[
           PopupMenuItem<String>(
-              value: 'value01',
+              value: 'createCategory',
               child: ListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
                   leading: Icon(
@@ -120,7 +121,11 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                     style: TextStyle(color: Colors.white),
                   ))),
         ]);
-    print(result);
+
+    if (result != null && result == 'createCategory') {
+      print('createCategory');
+      model.add(name: 'ddddd');
+    }
   }
 
   // // Widget _nomalPopMenu() {
