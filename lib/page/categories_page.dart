@@ -96,7 +96,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                     style: TextStyle(color: Colors.white),
                   ))),
           PopupMenuItem<String>(
-              value: 'value02',
+              value: 'getList',
               child: ListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
                   leading: Icon(
@@ -104,7 +104,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                     color: Colors.white,
                   ),
                   title: Text(
-                    'Item One',
+                    '获取列表',
                     style: TextStyle(color: Colors.white),
                   ))),
           PopupMenuDivider(height: 20.0),
@@ -125,6 +125,10 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
     if (result != null && result == 'createCategory') {
       print('createCategory');
       model.add(name: 'ddddd');
+    }
+    if (result != null && result == 'getList') {
+      print('createCategory');
+      model.getList();
     }
   }
 

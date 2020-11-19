@@ -99,6 +99,7 @@ class PhotoCategoriesPageModel with ChangeNotifier {
       error = false;
 
       response.result.categories.forEach((element) {
+        print(element.id.toString());
         categories.add(RepositoryCategory(
             element.id,
             RepositoryImage(
@@ -145,15 +146,18 @@ class PhotoCategoriesPageModel with ChangeNotifier {
     }
   }
 
-  add({String name}) async {
-    var options = Options();
-    options.responseType = ResponseType.json;
+  getList() async {
+    var options = Options(responseType: ResponseType.json);
 
-    var queryParameters = {
-      'format': 'json',
-      'method': PiwigoApiService.pwg_session_login,
-      'name': name,
-    };
+    Response response = await AppManager.dio.get(
+        "http://${AppManager.getServer()}" +
+            PiwigoApiService.pwg_categories_getList,
+        options: options);
+    print(response);
+  }
+
+  add({String name}) async {
+    var options = Options(responseType: ResponseType.json);
 
     Response response = await AppManager.dio.get(
         "http://${AppManager.getServer()}" +
