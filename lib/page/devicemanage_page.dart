@@ -40,9 +40,11 @@ class _DeviceManagePageState extends State<DeviceManagePage> {
 
       print(Get.find<FmsDevice>().toJson());
 
-      var currDeviceInfo =
-          jsonEncode(FmsDevice().fromJson(Get.find<FmsDevice>().toJson()));
+      var currDeviceInfo = jsonEncode(Get.find<FmsDevice>().toJson());
+      print(currDeviceInfo);
       AppManager.prefs.setString('CurrDeivceInfo', currDeviceInfo);
+
+      print(AppManager.prefs.getString('CurrDeivceInfo'));
     }
   }
 

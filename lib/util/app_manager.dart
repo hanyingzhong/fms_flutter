@@ -31,12 +31,20 @@ class AppManager {
   }
 
   static getCurrDeviceInfo() {
-    var currDeviceInfo = prefs.get('CurrDeivceInfo');
-    print(currDeviceInfo);
-    if (currDeviceInfo != '') {
+    var currDeviceInfo = prefs.getString('CurrDeivceInfo');
+    print('++++' + currDeviceInfo);
+    if (currDeviceInfo != null) {
+      print(currDeviceInfo);
       var fmsDevice = FmsDevice()..fromJson(jsonDecode(currDeviceInfo));
-      Get.put<FmsDevice>(fmsDevice, permanent: true);
-      //print(Get.find<FmsDevice>().toString());
+      Get.find<FmsDevice>().name = fmsDevice.name;
+      Get.find<FmsDevice>().username = fmsDevice.username;
+      Get.find<FmsDevice>().password = fmsDevice.password;
+
+      Get.find<DeviceLoginInfo>().deviceName = fmsDevice.name;
+      Get.find<DeviceLoginInfo>().loginUser = fmsDevice.username;
+      Get.find<DeviceLoginInfo>().loginPassword = fmsDevice.password;
+
+      print(Get.find<FmsDevice>().name);
     }
   }
 
@@ -60,6 +68,7 @@ class AppManager {
     await getApplcationDirectory();
     print('++++' + appDocsDir.toString());
     initDio();
+    Get.put<FmsDevice>(FmsDevice(), permanent: true);
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);
     Get.put<DeviceLoginInfo>(DeviceLoginInfo(), permanent: true);
 
