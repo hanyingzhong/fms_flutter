@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fms_flutter/provider/devicemgr_model.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:dio/dio.dart';
 import 'package:fms_flutter/api/piwigo_service.dart';
@@ -26,13 +28,21 @@ class LoginMgr {
     };
     FormData formData = FormData.fromMap(params);
 
-    Response response = await AppManager.dio.post(
-        "http://$host/piwigo/ws.php?format=json",
-        data: formData,
-        options: options);
+    Response response = await AppManager.dio
+        .post("http://$host/piwigo/ws.php?format=json",
+            data: formData, options: options)
+        .timeout(
+      Duration(seconds: 2),
+      onTimeout: () {
+        Get.find<FmsDevice>().connected = false;
+        return Response(statusCode: 408);
+      },
+    );
 
     print(response);
-    getSessionStatus();
+    if ('ok' == jsonDecode(response.data)['stat']) {
+      getSessionStatus();
+    }
   }
 
   void getSessionStatus() async {
@@ -47,6 +57,7 @@ class LoginMgr {
       PwgSessionGetStatusResponse status =
           PwgSessionGetStatusResponse.fromJson(jsonDecode(response.toString()));
       pwgToken = status.result.pwgToken;
+      print('pwgToken:' + pwgToken);
     }
   }
 

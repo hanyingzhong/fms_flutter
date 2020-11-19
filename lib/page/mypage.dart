@@ -81,7 +81,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
             child: Divider(height: 0.0),
           ),
           new ListTile(
-            title: new Text('提Issue/PR', style: new TextStyle(fontSize: 18.0)),
+            title: new Text('设备信息', style: new TextStyle(fontSize: 18.0)),
             trailing: new Icon(
               Icons.keyboard_arrow_right,
               color: Colors.grey,

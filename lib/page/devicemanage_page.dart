@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
+import 'package:fms_flutter/util/app_manager.dart';
 //import 'package:get/get.dart';
 import 'package:fms_flutter/util/validation.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,16 @@ class _DeviceManagePageState extends State<DeviceManagePage> {
       print(Get.find<DeviceLoginInfo>().deviceName);
       print(Get.find<DeviceLoginInfo>().loginPassword);
       print(loginPassword);
+      Get.find<FmsDevice>().name = Get.find<DeviceLoginInfo>().deviceName;
+      Get.find<FmsDevice>().username = Get.find<DeviceLoginInfo>().loginUser;
+      Get.find<FmsDevice>().password =
+          Get.find<DeviceLoginInfo>().loginPassword;
+
+      print(Get.find<FmsDevice>().toJson());
+
+      var currDeviceInfo =
+          jsonEncode(FmsDevice().fromJson(Get.find<FmsDevice>().toJson()));
+      AppManager.prefs.setString('CurrDeivceInfo', currDeviceInfo);
     }
   }
 

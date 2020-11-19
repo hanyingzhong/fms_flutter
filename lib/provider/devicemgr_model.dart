@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class DeviceLoginInfo {
@@ -12,12 +12,30 @@ class DeviceLoginInfo {
 class FmsDevice {
   String name;
   String host;
+  String username;
+  String password;
   bool connected = false;
 
-  FmsDevice({this.name, this.host, this.connected});
+  FmsDevice(
+      {this.name, this.host, this.username, this.password, this.connected});
+
   @override
   String toString() {
-    return name + '-' + host;
+    return '{"name": "$name", "username": "$username","password": "$password"}';
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['username'] = this.username;
+    data['password'] = this.password;
+    return data;
+  }
+
+  fromJson(Map<String, dynamic> data) {
+    name = data['name'];
+    username = data['username'];
+    password = data['password'];
   }
 }
 
@@ -36,10 +54,11 @@ class FmsDeviceMgr {
   }
 
   List<FmsDevice> mgr = [];
-  FmsDevice currentDevice;
 
   setCurrentDevice({@required FmsDevice currentDevice}) {
-    this.currentDevice = currentDevice;
+    Get.find<FmsDevice>().host = currentDevice.host;
+    Get.find<FmsDevice>().name = currentDevice.name;
+
     mgr.removeWhere((element) {
       if (element.name == currentDevice.name) {
         return true;
@@ -47,12 +66,7 @@ class FmsDeviceMgr {
       return false;
     });
 
-    print(currentDevice);
     mgr.add(currentDevice);
-  }
-
-  FmsDevice getCurrentDevice() {
-    return currentDevice;
   }
 
   add(FmsDevice device) {

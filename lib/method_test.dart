@@ -57,8 +57,8 @@ class _TestPageState extends State<TestPage> {
 
 void _startScan() {
   print('aaaaaaaaaaaaaaaaaaaaaaaa');
-  var deviceMgr = Get.find<FmsDeviceMgr>();
-  print('new...............' + deviceMgr.currentDevice.toString());
+  //var deviceMgr = Get.find<FmsDeviceMgr>();
+  //print('new...............' + deviceMgr.currentDevice.toString());
   searchDevices();
 }
 

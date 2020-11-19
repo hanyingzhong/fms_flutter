@@ -20,7 +20,7 @@ class AppManager {
   static LoginMgr loginMgr;
 
   static String getServer() {
-    return Get.find<FmsDeviceMgr>().currentDevice.host;
+    return Get.find<FmsDevice>().host;
   }
 
   static Directory getAppDir() {
@@ -30,25 +30,41 @@ class AppManager {
     return appDocsDir;
   }
 
+  static getCurrDeviceInfo() {
+    var currDeviceInfo = prefs.get('CurrDeivceInfo');
+    print(currDeviceInfo);
+    if (currDeviceInfo != '') {
+      var fmsDevice = FmsDevice()..fromJson(jsonDecode(currDeviceInfo));
+      Get.put<FmsDevice>(fmsDevice, permanent: true);
+      //print(Get.find<FmsDevice>().toString());
+    }
+  }
+
+  static void login2CurrDevice() async {
+    var deviceName = Get.find<FmsDevice>().name;
+    if (deviceName != '') {
+      var devMgr = Get.find<FmsDeviceMgr>();
+      await devMgr.searchCurrentDevice(Get.find<FmsDevice>().name);
+
+      loginMgr = LoginMgr(Get.find<FmsDevice>().host,
+          username: 'root', password: 'root');
+      loginMgr.login();
+    } else {
+      print('no device used....');
+    }
+  }
+
   //App初始化工作
   static init() async {
     prefs = await SharedPreferences.getInstance();
     await getApplcationDirectory();
     print('++++' + appDocsDir.toString());
     initDio();
-    prefs.setString('CurrDeivceName', 'DESKTOP-TR4ANSP');
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);
     Get.put<DeviceLoginInfo>(DeviceLoginInfo(), permanent: true);
 
-    var devMgr = Get.find<FmsDeviceMgr>();
-    // devMgr.setCurrentDevice(
-    //     currentDevice:
-    //         FmsDevice(name: prefs.get('CurrDeivceName'), host: '192.168.1.7'));
-    await devMgr.searchCurrentDevice(prefs.get('CurrDeivceName'));
-
-    loginMgr = LoginMgr(Get.find<FmsDeviceMgr>().currentDevice.host,
-        username: 'root', password: 'root');
-    loginMgr.login();
+    getCurrDeviceInfo();
+    login2CurrDevice();
   }
 
   static initDio() {
