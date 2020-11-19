@@ -32,9 +32,8 @@ class AppManager {
 
   static getCurrDeviceInfo() {
     var currDeviceInfo = prefs.getString('CurrDeivceInfo');
-    print('++++' + currDeviceInfo);
+    print('stored CurrDeivceInfo : ' + currDeviceInfo);
     if (currDeviceInfo != null) {
-      print(currDeviceInfo);
       var fmsDevice = FmsDevice()..fromJson(jsonDecode(currDeviceInfo));
       Get.find<FmsDevice>().name = fmsDevice.name;
       Get.find<FmsDevice>().username = fmsDevice.username;
@@ -66,7 +65,7 @@ class AppManager {
   static init() async {
     prefs = await SharedPreferences.getInstance();
     await getApplcationDirectory();
-    print('++++' + appDocsDir.toString());
+    print('appDocsDir : ' + appDocsDir.toString());
     initDio();
     Get.put<FmsDevice>(FmsDevice(), permanent: true);
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);

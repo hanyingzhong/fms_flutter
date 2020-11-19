@@ -76,7 +76,6 @@ class FmsDeviceMgr {
   Future<void> searchCurrentDevice(String deviceName) async {
     bool connect;
     String newHost;
-    print('--------------' + deviceName);
     try {
       final result = await InternetAddress.lookup(deviceName,
           type: InternetAddressType.IPv4);
