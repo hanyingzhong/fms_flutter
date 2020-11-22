@@ -4,8 +4,8 @@ class RepositoryCategory {
   int id;
 
   String name;
-  String comment;
-  int nbImages;
+  String comment = '';
+  int nbImages = 0;
   int nbCategories;
 
   RepositoryImage local;

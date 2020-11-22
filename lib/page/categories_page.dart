@@ -128,7 +128,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
     }
     if (result != null && result == 'getList') {
       print('createCategory');
-      model.getList();
+      model.refresh();
     }
   }
 
@@ -232,13 +232,15 @@ List<Widget> _buildCategoriesList(
                           //               decoration: TextDecoration.none))),
                           // )
                           ),
-                      Image(
-                        image: NetworkToFileImage(
-                          url: element.local.thumb.location,
-                          file: File(element.local.large.location),
-                          debug: false,
-                        ),
-                      ),
+                      element.nbImages != 0
+                          ? Image(
+                              image: NetworkToFileImage(
+                                url: element.local.thumb.location,
+                                file: File(element.local.large.location),
+                                debug: false,
+                              ),
+                            )
+                          : Text('no image'),
                     ]))))));
   });
 
