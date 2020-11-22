@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/config/color.dart';
+import 'package:fms_flutter/page/categories_add.dart';
 import 'package:fms_flutter/page/category_detail_page.dart';
 import 'package:fms_flutter/provider/categories_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/util/navigator_manager.dart';
 import 'package:fms_flutter/widget/loading_container.dart';
 import 'package:fms_flutter/widget/provider_widget.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -49,8 +51,16 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.link),
+                      icon: Icon(Icons.add),
                       tooltip: "创建相册",
+                      onPressed: () {
+                        Get.to(CategoriesManagePage(
+                            type: CategoriesManageType.Create));
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.link),
+                      tooltip: "...",
                       onPressed: () async {
                         await _popupMenu(context, model);
                       },
@@ -124,7 +134,8 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
 
     if (result != null && result == 'createCategory') {
       print('createCategory');
-      model.add(name: 'ddddd');
+      //model.add(name: 'ddddd');
+      Get.to(CategoriesManagePage(type: CategoriesManageType.Create));
     }
     if (result != null && result == 'getList') {
       print('createCategory');
