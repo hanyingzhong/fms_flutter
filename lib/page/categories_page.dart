@@ -4,6 +4,7 @@ import 'package:fms_flutter/config/color.dart';
 import 'package:fms_flutter/page/categories_add.dart';
 import 'package:fms_flutter/page/category_detail_page.dart';
 import 'package:fms_flutter/provider/categories_model.dart';
+import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/util/navigator_manager.dart';
 import 'package:fms_flutter/widget/loading_container.dart';
@@ -29,56 +30,61 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<PhotoCategoriesPageModel>(
-        model: PhotoCategoriesPageModel(),
-        onModelInit: (model) async {
-          model.refresh();
-          print('refreshed....');
-        },
-        builder: (context, model, child) {
-          return LoadingContainer(
-              loading: model.loading,
-              error: model.error,
-              retry: model.retry,
-              child: Scaffold(
-                appBar: AppBar(
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      tooltip: "搜索",
-                      onPressed: () {
-                        print("搜索");
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      tooltip: "创建相册",
-                      onPressed: () {
-                        Get.to(CategoriesManagePage(
-                            type: CategoriesManageType.Create));
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.link),
-                      tooltip: "...",
-                      onPressed: () async {
-                        await _popupMenu(context, model);
-                      },
-                    ),
-                    //_nomalPopMenu()
-                  ],
-                ),
-                body: SmartRefresher(
-                    controller: model.refreshController,
-                    onRefresh: model.refresh,
-                    onLoading: model.loadMore,
-                    enablePullUp: true,
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: _buildCategoriesList(context, model),
-                    )),
-              ));
-        });
+    print(Get.find<FmsDevice>().connected);
+    if (Get.find<FmsDevice>().connected == false) {
+      return Scaffold(appBar: AppBar(), body: _buildBanner(context));
+    } else {
+      return ProviderWidget<PhotoCategoriesPageModel>(
+          model: PhotoCategoriesPageModel(),
+          onModelInit: (model) async {
+            model.refresh();
+            print('refreshed....');
+          },
+          builder: (context, model, child) {
+            return LoadingContainer(
+                loading: model.loading,
+                error: model.error,
+                retry: model.retry,
+                child: Scaffold(
+                  appBar: AppBar(
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        tooltip: "搜索",
+                        onPressed: () {
+                          print("搜索");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        tooltip: "创建相册",
+                        onPressed: () {
+                          Get.to(CategoriesManagePage(
+                              type: CategoriesManageType.Create));
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.link),
+                        tooltip: "...",
+                        onPressed: () async {
+                          await _popupMenu(context, model);
+                        },
+                      ),
+                      //_nomalPopMenu()
+                    ],
+                  ),
+                  body: SmartRefresher(
+                      controller: model.refreshController,
+                      onRefresh: model.refresh,
+                      onLoading: model.loadMore,
+                      enablePullUp: true,
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        children: _buildCategoriesList(context, model),
+                      )),
+                ));
+          });
+    }
   }
 
   @override
@@ -143,52 +149,32 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
     }
   }
 
-  // // Widget _nomalPopMenu() {
-  // //   return PopupMenuButton<String>(
-  // //       color: Colors.grey[800], //Colors.black87, //Colors.black,
-  // //       //offset: Offset(10, 10),
-  // //       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-  // //             PopupMenuItem<String>(
-  // //                 value: 'value01',
-  // //                 child: ListTile(
-  // //                     leading: Icon(
-  // //                       Icons.message,
-  // //                       color: Colors.white,
-  // //                     ),
-  // //                     title: Text(
-  // //                       '创建相册',
-  // //                       style: TextStyle(color: Colors.white),
-  // //                     ))),
-  // //             PopupMenuItem<String>(
-  // //                 value: 'value02',
-  // //                 child: ListTile(
-  // //                     leading: Icon(
-  // //                       Icons.group_add,
-  // //                       color: Colors.white,
-  // //                     ),
-  // //                     title: Text(
-  // //                       'Item One',
-  // //                       style: TextStyle(color: Colors.white),
-  // //                     ))),
-  // //             PopupMenuDivider(height: 20.0),
-  // //             PopupMenuItem<String>(
-  // //                 value: 'value03',
-  // //                 child: ListTile(
-  // //                     leading: Icon(
-  // //                       Icons.cast_connected,
-  // //                       color: Colors.white,
-  // //                     ),
-  // //                     title: Text(
-  // //                       'Item One',
-  // //                       style: TextStyle(color: Colors.white),
-  // //                     ))),
-  // //           ],
-  // //       onSelected: (String value) {
-  // //         setState(() {
-  // //           print(value);
-  // //         });
-  // //       });
-  // }
+  Widget _buildBanner(BuildContext context) {
+    //final colorScheme = Theme.of(context).colorScheme;
+    final banner = MaterialBanner(
+      content: Text('您尚未登录或者没有添加设备...'),
+      leading: CircleAvatar(
+        child: Icon(Icons.access_alarm, color: Colors.white),
+        backgroundColor: Colors.white,
+      ),
+      actions: [
+        FlatButton(
+          child: Text('登录'),
+          onPressed: () {
+            setState(() {});
+          },
+        ),
+        FlatButton(
+          child: Text('退出'),
+          onPressed: () {
+            setState(() {});
+          },
+        ),
+      ],
+      backgroundColor: Colors.white,
+    );
+    return banner;
+  }
 }
 
 Widget _buildCategory(
