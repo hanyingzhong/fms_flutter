@@ -19,6 +19,7 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
   bool commnetable = true;
+  List<Asset> images = List<Asset>();
 
   validate() {
     if (true == _formKey.currentState.validate()) {}
@@ -109,9 +110,13 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 contentPadding: EdgeInsets.all(0.0),
                 title: Text('添加图片'),
                 trailing: Icon(Icons.add),
-                onTap: () {
-                  _assetsToFiles();
+                onTap: () async {
+                  images = await _assetsPicked();
+                  setState(() {});
                 },
+              ),
+              Expanded(
+                child: _buildGridView(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
@@ -128,6 +133,22 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildGridView() {
+    return GridView.count(
+      mainAxisSpacing: 2,
+      crossAxisSpacing: 2,
+      crossAxisCount: 3,
+      children: List.generate(images.length, (index) {
+        Asset asset = images[index];
+        return AssetThumb(
+          asset: asset,
+          width: 300,
+          height: 300,
+        );
+      }),
     );
   }
 }
@@ -165,4 +186,28 @@ Future<List<File>> _assetsToFiles() async {
   });
 
   return fileImageArray;
+}
+
+Future<List<Asset>> _assetsPicked() async {
+  List<Asset> assetArray = [];
+
+  try {
+    assetArray = await MultiImagePicker.pickImages(
+      maxImages: 300,
+      enableCamera: true,
+      selectedAssets: assetArray,
+      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+      materialOptions: MaterialOptions(
+        actionBarColor: "",
+        actionBarTitle: "ImagePicker",
+        allViewTitle: "All Photos",
+        useDetailsView: false,
+        selectCircleStrokeColor: "#000000",
+      ),
+    );
+  } on Exception catch (e) {
+    print(e.toString());
+  }
+
+  return assetArray;
 }
