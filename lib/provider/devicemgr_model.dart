@@ -73,13 +73,14 @@ class FmsDeviceMgr {
     mgr.add(device);
   }
 
-  Future<void> searchCurrentDevice(String deviceName) async {
+  Future<bool> searchCurrentDevice(String deviceName) async {
     bool connect;
     String newHost;
     try {
       final result = await InternetAddress.lookup(deviceName,
           type: InternetAddressType.IPv4);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        Get.find<FmsDevice>().connected = true;
         connect = true;
         newHost = result[0].address;
         print(newHost);
@@ -89,7 +90,9 @@ class FmsDeviceMgr {
       }
     } on SocketException catch (_) {
       connect = false;
+      Get.find<FmsDevice>().connected = false;
     }
     print('connect to ' + deviceName + ' ' + connect.toString());
+    return connect;
   }
 }

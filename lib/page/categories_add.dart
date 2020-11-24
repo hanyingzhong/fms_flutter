@@ -191,8 +191,8 @@ Future<List<Asset>> _assetsPicked() async {
 
   try {
     assetArray = await MultiImagePicker.pickImages(
-      maxImages: 300,
-      enableCamera: true,
+      maxImages: 9,
+      enableCamera: false,
       selectedAssets: assetArray,
       cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
       materialOptions: MaterialOptions(
