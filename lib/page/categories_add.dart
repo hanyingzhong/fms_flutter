@@ -5,6 +5,7 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:get/get.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:fms_flutter/util/validation.dart';
 
 enum CategoriesManageType { Edit, Create, Delete }
 
@@ -15,11 +16,15 @@ class CategoriesManagePage extends StatefulWidget {
   _CategoriesManagePageState createState() => _CategoriesManagePageState();
 }
 
+String categoryNameValidation(String v) => v.isRequired()();
+
 class _CategoriesManagePageState extends State<CategoriesManagePage> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
   bool commnetable = true;
   List<Asset> images = List<Asset>();
+  String name;
+  String comment;
 
   validate() {
     if (true == _formKey.currentState.validate()) {}
@@ -45,8 +50,8 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
             children: <Widget>[
               TextFormField(
                 initialValue: '',
-                validator: null,
-                onChanged: (v) => Get.find<DeviceLoginInfo>().deviceName = v,
+                validator: categoryNameValidation,
+                onChanged: (v) => name = v,
                 decoration: InputDecoration(
                   labelText: "相册名",
                 ),
@@ -54,7 +59,7 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
               TextFormField(
                 initialValue: '',
                 validator: null,
-                onChanged: (v) => Get.find<DeviceLoginInfo>().loginUser = v,
+                onChanged: (v) => comment = v,
                 decoration: InputDecoration(
                   labelText: "相册说明",
                 ),
@@ -69,10 +74,6 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 children: <Widget>[
                   Expanded(
                       child: Container(
-                    // constraints: BoxConstraints(
-                    //     maxWidth: MediaQuery.of(context).size.width / 3,
-                    //     maxHeight: MediaQuery.of(context).size.height / 3),
-                    //color: Color(0xFFFF0000),
                     child: CheckboxListTile(
                       //secondary: const Icon(Icons.shutter_speed),
                       contentPadding: EdgeInsets.all(0),
@@ -88,10 +89,6 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                   Expanded(child: Container(child: Text(''))),
                   Expanded(
                       child: Container(
-                    // constraints: BoxConstraints(
-                    //     maxWidth: MediaQuery.of(context).size.width / 3,
-                    //     maxHeight: MediaQuery.of(context).size.height / 3),
-                    //color: Color(0xFFFF0000),
                     child: CheckboxListTile(
                       //secondary: const Icon(Icons.shutter_speed),
                       contentPadding: EdgeInsets.all(0),
@@ -112,6 +109,7 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 trailing: Icon(Icons.add),
                 onTap: () async {
                   images = await _assetsPicked();
+                  _uploadFiles(images);
                   setState(() {});
                 },
               ),
@@ -210,4 +208,48 @@ Future<List<Asset>> _assetsPicked() async {
   }
 
   return assetArray;
+}
+
+Future<File> _getAbsolutePath(String uri) async {
+  final filePath = await FlutterAbsolutePath.getAbsolutePath(uri);
+  File tempFile = File(filePath);
+  if (tempFile.existsSync()) {
+    //print(tempFile.path);
+  }
+  return tempFile;
+}
+
+Future<List<File>> assetsToFiles(List<Asset> assets) async {
+  List<File> fileImageArray = [];
+
+  for (var item in assets) {
+    final file = await _getAbsolutePath(item.identifier);
+    if (file != null) {
+      fileImageArray.add(file);
+      //print(file.path);
+    }
+  }
+
+  // the following method can't get the result....
+  // assets.forEach((imageAsset) async {
+  //   final filePath =
+  //       await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+
+  //   File tempFile = File(filePath);
+  //   if (tempFile.existsSync()) {
+  //     fileImageArray.add(tempFile);
+  //     print(tempFile.path);
+  //   }
+  // });
+
+  print('++++++++++++++++++++' + fileImageArray.length.toString());
+  return fileImageArray;
+}
+
+_uploadFiles(List<Asset> assets) async {
+  List<File> files = await assetsToFiles(assets);
+
+  files.forEach((element) {
+    print(element.path);
+  });
 }
