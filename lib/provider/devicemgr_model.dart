@@ -15,6 +15,7 @@ class FmsDevice {
   String username;
   String password;
   bool connected = false;
+  bool inservice = false;
 
   FmsDevice(
       {this.name, this.host, this.username, this.password, this.connected});
@@ -74,14 +75,13 @@ class FmsDeviceMgr {
   }
 
   Future<bool> searchCurrentDevice(String deviceName) async {
-    bool connect;
+    bool connected;
     String newHost;
     try {
       final result = await InternetAddress.lookup(deviceName,
           type: InternetAddressType.IPv4);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        Get.find<FmsDevice>().connected = true;
-        connect = true;
+        connected = true;
         newHost = result[0].address;
         print(newHost);
         setCurrentDevice(
@@ -89,10 +89,22 @@ class FmsDeviceMgr {
                 FmsDevice(name: deviceName, host: newHost, connected: true));
       }
     } on SocketException catch (_) {
-      connect = false;
-      Get.find<FmsDevice>().connected = false;
+      connected = false;
     }
-    print('connect to ' + deviceName + ' ' + connect.toString());
-    return connect;
+    print('connect to ' + deviceName + ' ' + connected.toString());
+    return connected;
+  }
+
+  Future<bool> checkService(String ip, int port, {int seconds = 2}) async {
+    try {
+      var sock = await RawSocket.connect(ip, port,
+          timeout: Duration(seconds: seconds));
+      if (sock != null) {
+        sock.close();
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

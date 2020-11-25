@@ -56,7 +56,20 @@ class AppManager {
     var deviceName = Get.find<FmsDevice>().name;
     if (deviceName != null && deviceName != '') {
       var devMgr = Get.find<FmsDeviceMgr>();
-      await devMgr.searchCurrentDevice(Get.find<FmsDevice>().name);
+      var connected =
+          await devMgr.searchCurrentDevice(Get.find<FmsDevice>().name);
+      Get.find<FmsDevice>().connected = connected;
+      if (connected == false) {
+        print('cannot get device\' ipaddress');
+        return;
+      }
+
+      var inserice =
+          await devMgr.checkService(Get.find<FmsDevice>().name, 80, seconds: 1);
+      if (inserice == false) {
+        print('piwigo does not work....');
+        return;
+      }
 
       loginMgr = LoginMgr(Get.find<FmsDevice>().host,
           username: 'root', password: 'root');
