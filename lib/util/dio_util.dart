@@ -58,6 +58,7 @@ class LoginMgr {
           PwgSessionGetStatusResponse.fromJson(jsonDecode(response.toString()));
       pwgToken = status.result.pwgToken;
       print('pwgToken:' + pwgToken);
+      Get.find<FmsDevice>().pwgToken = pwgToken;
     }
   }
 

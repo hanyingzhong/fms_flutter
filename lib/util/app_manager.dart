@@ -70,9 +70,11 @@ class AppManager {
         print('piwigo does not work....');
         return;
       }
+      Get.find<FmsDevice>().inservice = inserice;
 
       loginMgr = LoginMgr(Get.find<FmsDevice>().host,
-          username: 'root', password: 'root');
+          username: Get.find<FmsDevice>().username,
+          password: Get.find<FmsDevice>().password);
       loginMgr.login();
     } else {
       print('no device used....');

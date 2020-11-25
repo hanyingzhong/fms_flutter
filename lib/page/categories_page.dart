@@ -216,6 +216,7 @@ List<Widget> _buildCategoriesList(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                       Container(
+                          padding: EdgeInsets.all(0.0),
                           // margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
                           // padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
                           height: 20.0,
@@ -236,6 +237,7 @@ List<Widget> _buildCategoriesList(
                                 file: File(element.local.large.location),
                                 debug: false,
                               ),
+                              fit: BoxFit.cover,
                             )
                           : Text('no image'),
                     ]))))));

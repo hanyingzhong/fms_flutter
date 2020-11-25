@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:fms_flutter/util/piwigo_request.dart';
 import 'dart:async';
 
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -64,8 +65,15 @@ class _MultiPickImagesPageState extends State<MultiPickImagesPage> {
 
     setState(() {
       images = resultList;
+      _upload();
       _error = error;
     });
+  }
+
+  _upload() async {
+    //List<File> files = await assetsToFiles();
+    var id = await PiwigiRequest.add(name: "调皮的当当2");
+    print("start create .....category..$id");
   }
 
   Future<List<File>> assetsToFiles() async {

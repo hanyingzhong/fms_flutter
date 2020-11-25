@@ -14,6 +14,9 @@ class FmsDevice {
   String host;
   String username;
   String password;
+
+  String pwgToken;
+
   bool connected = false;
   bool inservice = false;
 
