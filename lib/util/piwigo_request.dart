@@ -6,7 +6,7 @@ import 'package:fms_flutter/model/categories_add.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:path/path.dart' as path;
 
-class PiwigiRequest {
+class PiwigoRequest {
   static void uploadImage(File _imageDir, int category,
       {String host, String token}) async {
     //注意：dio3.x版本为了兼容web做了一些修改，上传图片的时候需要把File类型转换成String类型

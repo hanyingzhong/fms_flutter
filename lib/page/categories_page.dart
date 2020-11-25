@@ -209,7 +209,7 @@ List<Widget> _buildCategoriesList(
                 //margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
                 width: MediaQuery.of(context).size.width / 2, //160.0,
                 height: 220.0,
-                //padding: EdgeInsets.fromLTRB(10.0, 10.0, 1.0, 1.0),
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                 child: Card(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

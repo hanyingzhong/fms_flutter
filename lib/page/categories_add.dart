@@ -226,7 +226,7 @@ Future<List<File>> assetsToFiles(List<Asset> assets) async {
     final file = await _getAbsolutePath(item.identifier);
     if (file != null) {
       fileImageArray.add(file);
-      //print(file.path);
+      print(file.path);
     }
   }
 
@@ -252,4 +252,8 @@ _uploadFiles(List<Asset> assets) async {
   files.forEach((element) {
     print(element.path);
   });
+
+  if (files.length > 0) {
+    print('first file ：' + files[0].path);
+  }
 }

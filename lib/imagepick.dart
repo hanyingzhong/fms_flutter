@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/piwigo_request.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -70,9 +72,43 @@ class _MultiPickImagesPageState extends State<MultiPickImagesPage> {
     });
   }
 
+  Future<File> _getAbsolutePath(String uri) async {
+    final filePath = await FlutterAbsolutePath.getAbsolutePath(uri);
+    File tempFile = File(filePath);
+    if (tempFile.existsSync()) {
+      //print(tempFile.path);
+    }
+    return tempFile;
+  }
+
+  Future<List<File>> assetsToFiles2(List<Asset> assets) async {
+    List<File> fileImageArray = [];
+
+    for (var item in assets) {
+      final file = await _getAbsolutePath(item.identifier);
+      if (file != null) {
+        fileImageArray.add(file);
+        print(file.path);
+      }
+    }
+
+    print('++++++++++++++++++++' + fileImageArray.length.toString());
+    return fileImageArray;
+  }
+
   _upload() async {
     //List<File> files = await assetsToFiles();
-    var id = await PiwigiRequest.add(name: "调皮的当当2");
+    var id = await PiwigoRequest.add(name: "调皮的当当2");
+    List<File> files = await assetsToFiles2(images);
+    if (files != null) {
+      print(files[0].path);
+      PiwigoRequest.uploadImage(
+        files[0],
+        id,
+        host: Get.find<FmsDevice>().host,
+        token: Get.find<FmsDevice>().pwgToken,
+      );
+    }
     print("start create .....category..$id");
   }
 

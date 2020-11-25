@@ -85,6 +85,9 @@ class PhotoCategoriesPageModel with ChangeNotifier {
       },
     );
     print(response);
+    if (response == null) {
+      return;
+    }
     var result = json.decode(response.data);
 
     CategoriesGetListResponse getListResponse =
