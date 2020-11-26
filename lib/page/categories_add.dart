@@ -28,7 +28,10 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
   String comment;
 
   validate() {
-    if (true == _formKey.currentState.validate()) {}
+    if (true == _formKey.currentState.validate()) {
+      _upload();
+      Get.back();
+    }
   }
 
   resetForm() {
@@ -110,10 +113,9 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 trailing: Icon(Icons.add),
                 onTap: () async {
                   images = await _assetsPicked();
-                  //_uploadFiles(images);
-                  _upload();
                   setState(() {});
-                  Get.back();
+                  // _upload();
+                  // Get.back();
                 },
               ),
               Expanded(
@@ -175,17 +177,18 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
       return;
     }
     var id = await PiwigoRequest.add(name: name);
+    print("start create .....category..$id");
 
-    if (files != null) {
-      print(files[0].path);
-      PiwigoRequest.uploadImage(
-        files[0],
+    //if (files != null) {
+    for (var item in files) {
+      print(item.path);
+      await PiwigoRequest.uploadImage(
+        item,
         id,
         host: Get.find<FmsDevice>().host,
         token: Get.find<FmsDevice>().pwgToken,
       );
     }
-    print("start create .....category..$id");
   }
 }
 
