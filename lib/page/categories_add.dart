@@ -114,8 +114,6 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 onTap: () async {
                   images = await _assetsPicked();
                   setState(() {});
-                  // _upload();
-                  // Get.back();
                 },
               ),
               Expanded(
@@ -190,41 +188,6 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
       );
     }
   }
-}
-
-Future<List<File>> _assetsToFiles() async {
-  List<Asset> assetArray = [];
-  List<File> fileImageArray = [];
-
-  try {
-    assetArray = await MultiImagePicker.pickImages(
-      maxImages: 300,
-      enableCamera: true,
-      selectedAssets: assetArray,
-      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-      materialOptions: MaterialOptions(
-        actionBarColor: "",
-        actionBarTitle: "ImagePicker",
-        allViewTitle: "All Photos",
-        useDetailsView: false,
-        selectCircleStrokeColor: "#000000",
-      ),
-    );
-  } on Exception catch (e) {
-    print(e.toString());
-  }
-
-  assetArray.forEach((imageAsset) async {
-    final filePath =
-        await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
-
-    File tempFile = File(filePath);
-    if (tempFile.existsSync()) {
-      fileImageArray.add(tempFile);
-    }
-  });
-
-  return fileImageArray;
 }
 
 Future<List<Asset>> _assetsPicked() async {

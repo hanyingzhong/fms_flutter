@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/config/color.dart';
 import 'package:fms_flutter/components/expansion_tile.dart' as Comp;
+import 'package:fms_flutter/page/deviceinfo_page.dart';
 import 'package:fms_flutter/page/devicemanage_page.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,16 +81,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
             child: Divider(height: 0.0),
           ),
-          new ListTile(
-            title: new Text('设备信息', style: new TextStyle(fontSize: 18.0)),
-            trailing: new Icon(
-              Icons.keyboard_arrow_right,
-              color: Colors.grey,
-            ),
-            onTap: () {
-              //launch("https://github.com/fujianlian/GankFlutter/issues");
-            },
-          ),
+          getDeviceInfo(),
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
             child: Divider(height: 0.0),
