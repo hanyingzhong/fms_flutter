@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
+import 'package:fms_flutter/util/piwigo_request.dart';
 import 'package:get/get.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:fms_flutter/util/validation.dart';
@@ -109,8 +110,10 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                 trailing: Icon(Icons.add),
                 onTap: () async {
                   images = await _assetsPicked();
-                  _uploadFiles(images);
+                  //_uploadFiles(images);
+                  _upload();
                   setState(() {});
+                  Get.back();
                 },
               ),
               Expanded(
@@ -148,6 +151,41 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
         );
       }),
     );
+  }
+
+  Future<List<File>> assetsToFiles(List<Asset> assets) async {
+    List<File> fileImageArray = [];
+
+    for (var item in assets) {
+      final file = await _getAbsolutePath(item.identifier);
+      if (file != null) {
+        fileImageArray.add(file);
+        print(file.path);
+      }
+    }
+
+    print('++++++++++++++++++++' + fileImageArray.length.toString());
+    return fileImageArray;
+  }
+
+  _upload() async {
+    List<File> files = await assetsToFiles(images);
+    if (files.length == 0) {
+      print("why the length is zero...?");
+      return;
+    }
+    var id = await PiwigoRequest.add(name: name);
+
+    if (files != null) {
+      print(files[0].path);
+      PiwigoRequest.uploadImage(
+        files[0],
+        id,
+        host: Get.find<FmsDevice>().host,
+        token: Get.find<FmsDevice>().pwgToken,
+      );
+    }
+    print("start create .....category..$id");
   }
 }
 
@@ -217,43 +255,4 @@ Future<File> _getAbsolutePath(String uri) async {
     //print(tempFile.path);
   }
   return tempFile;
-}
-
-Future<List<File>> assetsToFiles(List<Asset> assets) async {
-  List<File> fileImageArray = [];
-
-  for (var item in assets) {
-    final file = await _getAbsolutePath(item.identifier);
-    if (file != null) {
-      fileImageArray.add(file);
-      print(file.path);
-    }
-  }
-
-  // the following method can't get the result....
-  // assets.forEach((imageAsset) async {
-  //   final filePath =
-  //       await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
-
-  //   File tempFile = File(filePath);
-  //   if (tempFile.existsSync()) {
-  //     fileImageArray.add(tempFile);
-  //     print(tempFile.path);
-  //   }
-  // });
-
-  print('++++++++++++++++++++' + fileImageArray.length.toString());
-  return fileImageArray;
-}
-
-_uploadFiles(List<Asset> assets) async {
-  List<File> files = await assetsToFiles(assets);
-
-  files.forEach((element) {
-    print(element.path);
-  });
-
-  if (files.length > 0) {
-    print('first file ：' + files[0].path);
-  }
 }
