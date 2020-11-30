@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, Response, MultipartFile;
 import 'package:path/path.dart' as path;
 import 'package:dio/dio.dart';
 import 'package:fms_flutter/api/piwigo_service.dart';

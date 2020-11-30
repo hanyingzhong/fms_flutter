@@ -18,7 +18,7 @@ class _DeviceManagePageState extends State<DeviceManagePage> {
 
   String loginPassword = Get.find<DeviceLoginInfo>().loginPassword;
   String usernameValidation(String v) => v.isRequired()();
-  String emailValidation(String v) => [v.isRequired(), v.isEmail()].validate();
+  //String emailValidation(String v) => [v.isRequired(), v.isEmail()].validate();
   String passwordValidation(String v) => [
         v.isRequired(),
         v.minLength(4),
