@@ -6,7 +6,7 @@ Widget getDeviceInfo() {
   return ExpansionTile(
     //tilePadding: EdgeInsets.all(0.0),
     //childrenPadding: EdgeInsets.all(0.0),
-    title: Text("设备信息"),
+    title: Text("设备信息", style: TextStyle(fontSize: 18)),
     // leading: Icon(
     //   Icons.favorite,
     //   color: Colors.white,
@@ -14,28 +14,38 @@ Widget getDeviceInfo() {
     backgroundColor: Colors.grey[500],
     initiallyExpanded: false, //默认是否展开
     children: <Widget>[
-      ListTile(
-        title: Text(Get.find<FmsDevice>().name),
-        // leading: Icon(
-        //   Icons.favorite_border,
-        //   color: Colors.white,
-        // ),
-      ),
+      // ListTile(
+      //   //contentPadding: EdgeInsets.all(0.0),
+      //   title: Text(Get.find<FmsDevice>().name),
+      // ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(Get.find<FmsDevice>().host),
+              Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: Text(
+                    Get.find<FmsDevice>().name,
+                    style: TextStyle(fontSize: 18),
+                  )),
               Spacer(
                 flex: 1,
               ),
-              Text(Get.find<FmsDevice>().username),
+              Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: Text(
+                    Get.find<FmsDevice>().host,
+                    style: TextStyle(fontSize: 18),
+                  )),
               Spacer(
                 flex: 1,
               ),
-              Text('1'),
+              Offstage(
+                  offstage: false,
+                  child: Text(Get.find<FmsDevice>().username,
+                      style: TextStyle(fontSize: 18))),
               Spacer(
                 flex: 1,
               ),
