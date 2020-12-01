@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fms_flutter/general_dialog.dart';
+import 'package:fms_flutter/get/get_test.dart';
 import 'package:fms_flutter/imagepick.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/app_manager.dart';
@@ -49,6 +50,15 @@ class _TestPageState extends State<TestPage> {
             RaisedButton(
                 child: const Text('dropdown'),
                 onPressed: () => Get.to(TestDropdownButton())),
+            RaisedButton(
+                child: const Text('update'),
+                onPressed: () => Get.to(UploadStatusShowPage())),
+            RaisedButton(
+                child: const Text('showList'),
+                onPressed: () {
+                  final user = Get.find<List>()[0];
+                  print(user.value.name);
+                })
             //GridView(),
           ],
         ));

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:fms_flutter/get/get_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -90,6 +91,10 @@ class AppManager {
     Get.put<FmsDevice>(FmsDevice(connected: false), permanent: true);
     Get.put<FmsDeviceMgr>(FmsDeviceMgr(), permanent: true);
     Get.put<DeviceLoginInfo>(DeviceLoginInfo(), permanent: true);
+
+    Get.put<List>(List());
+    Get.find<List>().add(User(name: 'first', age: 10).obs);
+    //print(Get.find<List>().length);
 
     getCurrDeviceInfo();
     if (Get.find<FmsDevice>().connected == true) {
