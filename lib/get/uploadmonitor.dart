@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UploadController extends GetxController {
-  final list = List();
-  UploadController() {
-    list.add('aaaaaaaaaa');
-  }
+class UploadStatusController extends GetxController {
+  var list = List();
+  UploadStatusController({this.list});
 }
 
-class User {
-  User({this.name, this.age});
-  String name;
-  int age;
+class UploadProgressStatus {
+  UploadProgressStatus({this.categoryId, this.fileName, this.progress});
+  final int categoryId;
+  final String fileName;
   int progress;
 
   set setProgress(int progress) {
@@ -25,22 +23,10 @@ class UploadStatusShowPage extends StatefulWidget {
 }
 
 class _UploadStatusShowPageState extends State<UploadStatusShowPage> {
-  //final user = User().obs;
-  final user = User().obs;
-  int idx = 0;
-
   @override
   void initState() {
     super.initState();
-    print("===============");
-    user.update((user) {
-      // this parameter is the class itself that you want to update
-      user.name = 'Jonny====';
-      user.age = 18;
-    });
-    // print(user.runtimeType);
-    // print(Get.find<List>().length);
-    Get.find<List>().forEach((element) {
+    Get.find<UploadStatusController>()?.list?.forEach((element) {
       print("+++++");
       print(element.value.name);
       print(element.runtimeType);
@@ -53,10 +39,9 @@ class _UploadStatusShowPageState extends State<UploadStatusShowPage> {
       appBar: AppBar(),
       body: SafeArea(
           child: GetBuilder(
-              init: UploadController(),
+              init: Get.find<UploadStatusController>(),
               builder: (controller) {
-                print("count 1 rebuild");
-                return Column(children: _buildItems());
+                return Column(children: _buildItems(controller));
               })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -71,22 +56,10 @@ class _UploadStatusShowPageState extends State<UploadStatusShowPage> {
     );
   }
 
-  _buildItems() {
+  _buildItems(controller) {
     List<Widget> list = [];
 
-    list.add(FlatButton(
-        onPressed: () {
-          //controller.list.add('bbbbbb');
-          idx++;
-          user.update((user) {
-            // this parameter is the class itself that you want to update
-            user.name = 'Jonny';
-            user.age = 18 + idx;
-          });
-        },
-        child: Text('add')));
-
-    Get.find<List>().forEach((element) {
+    controller?.list?.forEach((element) {
       list.add(Obx(
           () => Text("Name ${element.value.name}: Age: ${element.value.age}")));
     });

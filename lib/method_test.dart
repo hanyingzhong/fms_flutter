@@ -14,6 +14,7 @@ import 'package:network_to_file_image/network_to_file_image.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:fms_flutter/page/popup_route_page.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -58,7 +59,12 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   final user = Get.find<List>()[0];
                   print(user.value.name);
-                })
+                }),
+            RaisedButton(
+                child: const Text('popup'),
+                onPressed: () {
+                  Get.to(PopupRoutePage());
+                }),
             //GridView(),
           ],
         ));

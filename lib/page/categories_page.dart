@@ -11,9 +11,9 @@ import 'package:fms_flutter/widget/loading_container.dart';
 import 'package:fms_flutter/widget/provider_widget.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-//import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:network_to_file_image/network_to_file_image.dart';
+import 'package:fms_flutter/popupmenu/w_popup_menu.dart';
 
 class PhotoCategoriesPage extends StatefulWidget {
   @override
@@ -27,6 +27,11 @@ File fileFromDocsDir(model, String filename) {
 
 class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
     with AutomaticKeepAliveClientMixin {
+  final List<String> actions = [
+    '编辑',
+    '删除',
+  ];
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -80,7 +85,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                       enablePullUp: true,
                       child: Wrap(
                         alignment: WrapAlignment.center,
-                        children: _buildCategoriesList(context, model),
+                        children: _buildCategoriesList(context, model, actions),
                       )),
                 ));
           });
@@ -177,70 +182,47 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
   }
 }
 
-Widget _buildCategory(
-    BuildContext context, int index, PhotoCategoriesPageModel model) {
-  return GestureDetector(
-      onTap: () =>
-          {NavigatorManager.to(CategoryDeailPage(model.categories[index].id))},
-      child: SafeArea(
-          child: Container(
-              width: 200.0,
-              height: 160.0,
-              child: Image(
-                image: NetworkToFileImage(
-                  // url:
-                  //     "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
-                  url: model.categories[index].local.thumb.location,
-                  file: File(model.categories[index].local.large.location),
-                  debug: true,
-                ),
-              ))));
-}
-
-List<Widget> _buildCategoriesList(
-    BuildContext context, PhotoCategoriesPageModel model) {
+List<Widget> _buildCategoriesList(BuildContext context,
+    PhotoCategoriesPageModel model, List<String> actions) {
   List<Widget> list = [];
 
   model.categories.forEach((element) {
-    list.add(GestureDetector(
-        onTap: () => {NavigatorManager.to(CategoryDeailPage(element.id))},
+    list.add(Container(
         child: SafeArea(
-            child: Container(
-                //margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                width: MediaQuery.of(context).size.width / 2, //160.0,
-                height: 220.0,
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                child: Card(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                      Container(
-                          padding: EdgeInsets.all(0.0),
-                          // margin: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                          // padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                          height: 20.0,
-                          child: Text(element.name)
-                          // ListTile(
-                          //   title: Center(
-                          //       child: Text(element.name,
-                          //           style: TextStyle(
-                          //               fontWeight: FontWeight.w200,
-                          //               fontSize: 12,
-                          //               decoration: TextDecoration.none))),
-                          // )
-                          ),
-                      element.nbImages != 0
-                          ? Image(
-                              image: NetworkToFileImage(
-                                url: element.local.thumb.location,
-                                file: File(element.local.large.location),
-                                debug: false,
-                              ),
-                              fit: BoxFit.cover,
-                            )
-                          : Text('no image'),
-                    ]))))));
+            child: WPopupMenu(
+                pressType: PressType.longPress,
+                onValueChanged: (value) {},
+                actions: actions,
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 2, //160.0,
+                    height: 220.0,
+                    padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    child: InkWell(
+                        onTap: () => {
+                              NavigatorManager.to(CategoryDeailPage(element.id))
+                            },
+                        child: Card(
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                              Container(
+                                  padding: EdgeInsets.all(0.0),
+                                  height: 20.0,
+                                  child: Text(element.name)),
+                              element.nbImages != 0
+                                  ? Image(
+                                      image: NetworkToFileImage(
+                                        url: element.local.thumb.location,
+                                        file:
+                                            File(element.local.large.location),
+                                        debug: false,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Text('no image'),
+                            ]))))))));
   });
 
   return list;

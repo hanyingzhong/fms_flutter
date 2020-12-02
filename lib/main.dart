@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(App());
   //Flutter沉浸式状态栏
   if (Platform.isAndroid) {
