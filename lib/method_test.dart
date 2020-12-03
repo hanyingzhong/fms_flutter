@@ -15,6 +15,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fms_flutter/page/popup_route_page.dart';
+import 'package:fms_flutter/page/categories_detail_page2.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -65,6 +66,12 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   Get.to(PopupRoutePage());
                 }),
+            RaisedButton(
+                child: const Text('staggerd'),
+                onPressed: () {
+                  Get.to(CategoryDetailPage());
+                }),
+
             //GridView(),
           ],
         ));
