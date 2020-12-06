@@ -39,7 +39,12 @@ class LoginMgr {
       },
     );
 
+    print("=======================");
     print(response);
+    if (response == null) {
+      return;
+    }
+
     if ('ok' == jsonDecode(response.data)['stat']) {
       getSessionStatus();
     }

@@ -181,9 +181,9 @@ final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
 ]);
 
 List<IntSize> _createSizes(int count) {
-  Random rnd = new Random();
-  return new List.generate(count,
-      (i) => new IntSize((rnd.nextInt(500) + 200), rnd.nextInt(800) + 200));
+  Random rnd = Random();
+  return List.generate(
+      count, (i) => IntSize((rnd.nextInt(500) + 200), rnd.nextInt(800) + 200));
 }
 
 class CategoryDetailPage extends StatelessWidget {
@@ -194,17 +194,18 @@ class CategoryDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('random dynamic tile sizes'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('random dynamic tile sizes'),
       ),
-      body: new StaggeredGridView.countBuilder(
+      body: StaggeredGridView.countBuilder(
         primary: false,
         crossAxisCount: 4,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
-        itemBuilder: (context, index) => new _Tile(index, _sizes[index]),
-        staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
+        itemCount: _kItemCount,
+        itemBuilder: (context, index) => _Tile(index, _sizes[index]),
+        staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       ),
     );
   }
@@ -225,33 +226,33 @@ class _Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-      child: new Column(
+    return Card(
+      child: Column(
         children: <Widget>[
-          new Stack(
+          Stack(
             children: <Widget>[
               //new Center(child: new CircularProgressIndicator()),
-              new Center(
-                child: new FadeInImage.memoryNetwork(
+              Center(
+                child: FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
                   image: 'https://picsum.photos/${size.width}/${size.height}/',
                 ),
               ),
             ],
           ),
-          new Padding(
+          Padding(
             padding: const EdgeInsets.all(4.0),
-            child: new Column(
+            child: Column(
               children: <Widget>[
-                new Text(
+                Text(
                   'Image number $index',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                new Text(
+                Text(
                   'Width: ${size.width}',
                   style: const TextStyle(color: Colors.grey),
                 ),
-                new Text(
+                Text(
                   'Height: ${size.height}',
                   style: const TextStyle(color: Colors.grey),
                 ),
@@ -263,3 +264,92 @@ class _Tile extends StatelessWidget {
     );
   }
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+class CategoryDetailPage3 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Cat Demo')),
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: Wrap(
+          children: [for (CatImage image in images) ImageCaption(image)],
+        ),
+      ),
+    );
+  }
+}
+
+class ImageCaption extends StatelessWidget {
+  const ImageCaption(this.image);
+
+  final CatImage image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.all(4),
+      margin: EdgeInsets.all(10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ImageWidgetPlaceholder(
+            image: NetworkImage(image.url),
+            placeholder: SizedBox(
+              width: image.width.toDouble(),
+              height: image.height.toDouble(),
+            ),
+          ),
+          Text(image.caption),
+        ],
+      ),
+    );
+  }
+}
+
+class ImageWidgetPlaceholder extends StatelessWidget {
+  const ImageWidgetPlaceholder({Key key, this.image, this.placeholder})
+      : super(key: key);
+
+  final ImageProvider image;
+  final Widget placeholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image(
+      image: image,
+      frameBuilder: (BuildContext context, Widget child, int frame,
+          bool wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) {
+          return child;
+        } else {
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: frame != null ? child : placeholder,
+          );
+        }
+      },
+    );
+  }
+}
+
+class CatImage {
+  const CatImage({this.width, this.height, this.caption});
+  final int width;
+  final int height;
+  final String caption;
+
+  get url => 'https://placekitten.com/$width/$height';
+}
+
+const List<CatImage> images = [
+  CatImage(width: 150, height: 150, caption: 'Watch out'),
+  CatImage(width: 150, height: 160, caption: 'Hmm'),
+  CatImage(width: 160, height: 150, caption: 'Whats up'),
+  CatImage(width: 140, height: 150, caption: 'Miaoo'),
+  CatImage(width: 130, height: 150, caption: 'Hey'),
+  CatImage(width: 155, height: 150, caption: 'Hello'),
+];

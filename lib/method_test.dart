@@ -71,7 +71,11 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   Get.to(CategoryDetailPage());
                 }),
-
+            RaisedButton(
+                child: const Text('placeholder'),
+                onPressed: () {
+                  Get.to(CategoryDetailPage3());
+                }),
             //GridView(),
           ],
         ));

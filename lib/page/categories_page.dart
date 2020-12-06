@@ -84,7 +84,7 @@ class _PhotoCategoriesPageState extends State<PhotoCategoriesPage>
                       onLoading: model.loadMore,
                       enablePullUp: true,
                       child: Wrap(
-                        alignment: WrapAlignment.center,
+                        alignment: WrapAlignment.start,
                         children: _buildCategoriesList(context, model, actions),
                       )),
                 ));
