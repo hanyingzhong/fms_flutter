@@ -136,25 +136,7 @@ class _Tile extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Image number $index',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Width: ',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'Height:',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          )
+          _buildDesc(index),
         ],
       ),
     );
@@ -175,5 +157,53 @@ class _Tile extends StatelessWidget {
     //   image: element.local.thumb.location,
     //   fit: BoxFit.fitWidth,
     // );
+  }
+
+  Widget _buildDesc(int index) {
+    var element = Get.find<List<RepositoryCategory>>()[index];
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 50,
+            child: Row(
+              children: [
+                Text(
+                  element.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Spacer(
+                  flex: 5,
+                ),
+                InkWell(
+                  child: Icon(
+                    Icons.comment,
+                    size: 15,
+                    //color: Colors.white,
+                  ),
+                  onTap: () {
+                    print("edit tapped");
+                  },
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                InkWell(
+                  child: Icon(
+                    Icons.edit,
+                    size: 15,
+                    //color: Colors.white,
+                  ),
+                  onTap: () {
+                    print("ecommnet tapped");
+                  },
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
