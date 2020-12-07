@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fms_flutter/model/categories_getlist.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
+import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/repository/repo_images.dart';
+import 'package:fms_flutter/util/file_util.dart';
 import 'package:get/get.dart' hide FormData, Response, MultipartFile;
 import 'package:path/path.dart' as path;
 import 'package:dio/dio.dart';
@@ -95,5 +99,39 @@ class LoginMgr {
         data: formData);
 
     print(response);
+  }
+
+  static void getCategoriesList() async {
+    List<RepositoryCategory> categories = [];
+    var options = Options();
+    options.responseType = ResponseType.json;
+
+    Response response = await AppManager.dio.get(
+        'http://${AppManager.getServer()}' +
+            PiwigoApiService.pwg_categories_getList,
+        options: options);
+    if (response != null) {
+      CategoriesGetListResponse status =
+          CategoriesGetListResponse.fromJson(jsonDecode(response.toString()));
+      status.result.categories.forEach((element) {
+        print(element.id.toString());
+        print(element.tnUrl);
+        categories.add(RepositoryCategory(
+            element.id,
+            RepositoryImage(
+              RepositoryImageDesc(0, 0, element.tnUrl),
+              RepositoryImageDesc(
+                  0,
+                  0,
+                  FileUtils.generateLocalFileName(
+                      FileUtils.getFileName(element.tnUrl))),
+            ),
+            RepositoryImage(null, null),
+            nbImages: element.nbImages,
+            name: element.name,
+            comment: element.comment));
+      });
+      Get.put<List<RepositoryCategory>>(categories);
+    }
   }
 }

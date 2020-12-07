@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms_flutter/general_dialog.dart';
 import 'package:fms_flutter/get/get_test.dart';
 import 'package:fms_flutter/imagepick.dart';
+import 'package:fms_flutter/page/categories_show.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
@@ -75,6 +76,16 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('placeholder'),
                 onPressed: () {
                   Get.to(CategoryDetailPage3());
+                }),
+            RaisedButton(
+                child: const Text('GetCategoriesList'),
+                onPressed: () {
+                  LoginMgr.getCategoriesList();
+                }),
+            RaisedButton(
+                child: const Text('showCategoriesList'),
+                onPressed: () {
+                  Get.to(CategoryDetailShowPage());
                 }),
             //GridView(),
           ],

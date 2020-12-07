@@ -17,7 +17,6 @@ class AppManager {
   static SharedPreferences prefs;
   static Directory appDocsDir;
   static Dio dio;
-  static String serverHost = '192.168.1.7';
   static LoginMgr loginMgr;
 
   static String getServer() {
