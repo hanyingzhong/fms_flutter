@@ -4,9 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
-import 'package:fms_flutter/util/dio_util.dart';
+import 'package:fms_flutter/repository/repo_images.dart';
 import 'package:get/get.dart';
 import 'package:network_to_file_image/network_to_file_image.dart';
 
@@ -77,9 +76,20 @@ final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
   0xAE,
 ]);
 
-class CategoriesDetailShowPage extends StatelessWidget {
+class CategoryDetailShowPage extends StatelessWidget {
+  final int categoryId;
+
+  CategoryDetailShowPage(this.categoryId);
+
   @override
   Widget build(BuildContext context) {
+    print(categoryId);
+    List<RepositoryImagePair> images =
+        Get.find<List<RepositoryImagePair>>(tag: categoryId.toString());
+    int itemCount = images.length;
+    images.forEach((element) {
+      print(element.network.large.location);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text('random dynamic tile sizes'),
@@ -89,8 +99,8 @@ class CategoriesDetailShowPage extends StatelessWidget {
         crossAxisCount: 4,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
-        itemCount: Get.find<List<RepositoryCategory>>().length,
-        itemBuilder: (context, index) => _Tile(index),
+        itemCount: itemCount,
+        itemBuilder: (context, index) => _ImageTile(index, images[index]),
         staggeredTileBuilder: (index) => StaggeredTile.fit(2),
         //staggeredTileBuilder: (index) => StaggeredTile.count(2, 3),
       ),
@@ -98,10 +108,11 @@ class CategoriesDetailShowPage extends StatelessWidget {
   }
 }
 
-class _Tile extends StatelessWidget {
-  const _Tile(this.index);
+class _ImageTile extends StatelessWidget {
+  const _ImageTile(this.index, this.imagePair);
 
   final int index;
+  final RepositoryImagePair imagePair;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +132,7 @@ class _Tile extends StatelessWidget {
                 //   fit: BoxFit.fill,
                 // ),
 
-                child: _buildTile(index),
+                child: _buildTile(imagePair),
                 //     child: FadeInImage.memoryNetwork(
                 //   placeholder: kTransparentImage,
                 //   image: Get.find<List<RepositoryCategory>>()[index]
@@ -138,25 +149,22 @@ class _Tile extends StatelessWidget {
               ),
             ],
           ),
-          _buildDesc(index),
+          _buildDesc(imagePair),
         ],
       ),
     );
   }
 
-  Widget _buildTile(int index) {
-    var element = Get.find<List<RepositoryCategory>>()[index];
+  Widget _buildTile(RepositoryImagePair imagePair) {
     return InkWell(
-        onTap: () async {
-          print("tapped.................." + element.id.toString());
-          await LoginMgr.getCategoryDetail(element.id);
-          Get.to(CategoryDetailShowPage(element.id));
+        onTap: () {
+          print("tapped.");
         },
         child: Image(
           image: NetworkToFileImage(
-            url: element.local.thumb.location,
-            file: File(element.local.large.location),
-            debug: false,
+            url: imagePair.network.large.location,
+            file: File(imagePair.local.large.location),
+            debug: true,
           ),
           fit: BoxFit.cover,
         ));
@@ -167,8 +175,7 @@ class _Tile extends StatelessWidget {
     // );
   }
 
-  Widget _buildDesc(int index) {
-    var element = Get.find<List<RepositoryCategory>>()[index];
+  Widget _buildDesc(RepositoryImagePair imagePair) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Column(
@@ -181,7 +188,7 @@ class _Tile extends StatelessWidget {
                   flex: 1,
                 ),
                 Text(
-                  element.name,
+                  "",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Spacer(

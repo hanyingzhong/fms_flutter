@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fms_flutter/model/categories_getimages.dart';
 import 'package:fms_flutter/model/categories_getlist.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
@@ -133,5 +134,57 @@ class LoginMgr {
       });
       Get.put<List<RepositoryCategory>>(categories);
     }
+  }
+
+  static Future<void> getCategoryDetail(int categoryIndex) async {
+    List<RepositoryImagePair> images = [];
+    var options = Options();
+    options.responseType = ResponseType.json;
+
+    Response response = await AppManager.dio.get(
+        'http://${AppManager.getServer()}' +
+            PiwigoApiService.pwg_categories_getImages +
+            categoryIndex.toString(),
+        options: options);
+    //print(response);
+    if (response != null) {
+      CategoriesGetImagesResponse status =
+          CategoriesGetImagesResponse.fromJson(jsonDecode(response.toString()));
+      status.result.images.forEach((element) {
+        RepositoryImage network = RepositoryImage(
+          RepositoryImageDesc(
+              element.derivatives.square.width,
+              element.derivatives.square.height,
+              element.derivatives.square.url),
+          RepositoryImageDesc(
+              element.derivatives.medium.width,
+              element.derivatives.medium.height,
+              element.derivatives.medium.url),
+        );
+
+        RepositoryImage thumbLocation = RepositoryImage(
+          RepositoryImageDesc(
+              element.derivatives.square.width,
+              element.derivatives.square.height,
+              FileUtils.generateLocalFileName(
+                  FileUtils.getFileName(element.derivatives.square.url))),
+          RepositoryImageDesc(
+              element.derivatives.medium.width,
+              element.derivatives.medium.height,
+              FileUtils.generateLocalFileName(
+                  FileUtils.getFileName(element.derivatives.medium.url))),
+        );
+
+        RepositoryImagePair image = RepositoryImagePair(
+            id: element.id, local: thumbLocation, network: network);
+        print(element.id);
+        images.add(image);
+      });
+      Get.put<List<RepositoryImagePair>>(images, tag: categoryIndex.toString());
+    }
+
+    print("========================");
+    print(Get.find<List<RepositoryImagePair>>(tag: categoryIndex.toString())
+        .length);
   }
 }
