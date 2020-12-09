@@ -5,6 +5,7 @@ import 'package:fms_flutter/get/get_test.dart';
 import 'package:fms_flutter/imagepick.dart';
 import 'package:fms_flutter/page/categories_show.dart';
 import 'package:fms_flutter/page/category_show_detail.dart';
+import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
@@ -74,6 +75,12 @@ class _TestPageState extends State<TestPage> {
                   Get.to(CategoryDetailPage());
                 }),
             RaisedButton(
+                child: const Text('staggerd2'),
+                onPressed: () {
+                  LoginMgr.getCategoryDetail(1);
+                  Get.to(CategoryStaggeredExtentCountPage(1));
+                }),
+            RaisedButton(
                 child: const Text('placeholder'),
                 onPressed: () {
                   Get.to(CategoryDetailPage3());
@@ -93,6 +100,13 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   LoginMgr.getCategoryDetail(1);
                   Get.to(CategoryDetailShowPage(1));
+                }),
+            RaisedButton(
+                child: const Text('deleteImage'),
+                onPressed: () {
+                  LoginMgr.deletedImage(43);
+                  List<int> ids = [100, 101];
+                  LoginMgr.deletedImages(ids);
                 }),
             //GridView(),
           ],

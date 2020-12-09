@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fms_flutter/page/category_show_detail.dart';
+import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -151,6 +152,7 @@ class _Tile extends StatelessWidget {
           print("tapped.................." + element.id.toString());
           await LoginMgr.getCategoryDetail(element.id);
           Get.to(CategoryDetailShowPage(element.id));
+          //Get.to(CategoryStaggeredExtentCountPage(element.id));
         },
         child: Image(
           image: NetworkToFileImage(

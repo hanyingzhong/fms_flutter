@@ -87,9 +87,6 @@ class CategoryDetailShowPage extends StatelessWidget {
     List<RepositoryImagePair> images =
         Get.find<List<RepositoryImagePair>>(tag: categoryId.toString());
     int itemCount = images.length;
-    images.forEach((element) {
-      print(element.network.large.location);
-    });
     return Scaffold(
       appBar: AppBar(
         title: Text('random dynamic tile sizes'),
