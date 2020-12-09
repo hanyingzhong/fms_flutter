@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fms_flutter/page/category_swiper.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/repository/repo_images.dart';
 import 'package:get/get.dart';
@@ -97,7 +98,8 @@ class CategoryDetailShowPage extends StatelessWidget {
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
         itemCount: itemCount,
-        itemBuilder: (context, index) => _ImageTile(index, images[index]),
+        itemBuilder: (context, index) =>
+            _ImageTile(index, categoryId, images[index]),
         staggeredTileBuilder: (index) => StaggeredTile.fit(2),
         //staggeredTileBuilder: (index) => StaggeredTile.count(2, 3),
       ),
@@ -106,8 +108,9 @@ class CategoryDetailShowPage extends StatelessWidget {
 }
 
 class _ImageTile extends StatelessWidget {
-  const _ImageTile(this.index, this.imagePair);
+  const _ImageTile(this.index, this.categoryId, this.imagePair);
 
+  final int categoryId;
   final int index;
   final RepositoryImagePair imagePair;
 
@@ -156,6 +159,7 @@ class _ImageTile extends StatelessWidget {
     return InkWell(
         onTap: () {
           print("tapped.");
+          Get.to(CategoryPhotoSwiperPage(categoryId));
         },
         child: Image(
           image: NetworkToFileImage(
