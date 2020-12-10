@@ -37,16 +37,14 @@ class CategoryPhotoSwiperPage extends StatelessWidget {
           autoplay: true,
           itemCount: images.length,
           //pagination: SwiperPagination(),
-          // pagination: SwiperPagination(
-          //     alignment: Alignment.bottomRight,
-          //     margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-          //     builder: DotSwiperPaginationBuilder(
-          //         color: Colors.black54, activeColor: Colors.white)),
           pagination: SwiperPagination(
               alignment: Alignment.bottomRight,
               margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-              builder: FractionPaginationBuilder(
-                  color: Colors.black54, activeColor: Colors.white)),
+              builder: images.length > 8
+                  ? FractionPaginationBuilder(
+                      color: Colors.black54, activeColor: Colors.white)
+                  : DotSwiperPaginationBuilder(
+                      color: Colors.black54, activeColor: Colors.white)),
           control: SwiperControl(),
         ));
   }
