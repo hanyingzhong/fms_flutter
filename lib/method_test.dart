@@ -7,6 +7,7 @@ import 'package:fms_flutter/page/categories_show.dart';
 import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
+import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -86,9 +87,9 @@ class _TestPageState extends State<TestPage> {
                   Get.to(CategoryDetailPage3());
                 }),
             RaisedButton(
-                child: const Text('GetCategoriesList'),
+                child: const Text('SetCategoryInfo'),
                 onPressed: () {
-                  LoginMgr.getCategoriesList();
+                  LoginMgr.setCategoryInfo(1, comment: "武功山确实不错，可惜太匆忙");
                 }),
             RaisedButton(
                 child: const Text('showCategoriesList'),

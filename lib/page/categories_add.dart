@@ -22,7 +22,7 @@ String categoryNameValidation(String v) => v.isRequired()();
 class _CategoriesManagePageState extends State<CategoriesManagePage> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
-  bool commnetable = true;
+  bool commentable = true;
   List<Asset> images = List<Asset>();
   String name;
   String comment;
@@ -97,10 +97,10 @@ class _CategoriesManagePageState extends State<CategoriesManagePage> {
                       //secondary: const Icon(Icons.shutter_speed),
                       contentPadding: EdgeInsets.all(0),
                       title: const Text('可评论'),
-                      value: this.commnetable,
+                      value: this.commentable,
                       onChanged: (bool value) {
                         setState(() {
-                          this.commnetable = !this.commnetable;
+                          this.commentable = !this.commentable;
                         });
                       },
                     ),

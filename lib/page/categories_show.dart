@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fms_flutter/page/category_manage.dart';
 import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
@@ -210,6 +211,8 @@ class _Tile extends StatelessWidget {
                   ),
                   onTap: () {
                     print("commnent tapped");
+                    Get.to(
+                        CategoryManagePage(CategoryManageType.Edit, element));
                   },
                 )
               ],

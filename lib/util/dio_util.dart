@@ -22,7 +22,7 @@ class LoginMgr {
 
   LoginMgr(this.host, {this.username, this.password});
 
-  void login() async {
+  Future<void> login() async {
     var options = Options();
     options.responseType = ResponseType.json;
 
@@ -51,11 +51,15 @@ class LoginMgr {
     }
 
     if ('ok' == jsonDecode(response.data)['stat']) {
-      getSessionStatus();
+      await getSessionStatus();
+      if (Get.find<FmsDevice>().pwgToken != null) {
+        print("get......");
+        LoginMgr.getCategoriesList();
+      }
     }
   }
 
-  void getSessionStatus() async {
+  Future<void> getSessionStatus() async {
     var options = Options();
     options.responseType = ResponseType.json;
 
@@ -115,8 +119,8 @@ class LoginMgr {
       CategoriesGetListResponse status =
           CategoriesGetListResponse.fromJson(jsonDecode(response.toString()));
       status.result.categories.forEach((element) {
-        print(element.id.toString());
-        print(element.tnUrl);
+        // print(element.id.toString());
+        // print(element.tnUrl);
         categories.add(RepositoryCategory(
             element.id,
             RepositoryImage(
@@ -183,9 +187,9 @@ class LoginMgr {
       Get.put<List<RepositoryImagePair>>(images, tag: categoryIndex.toString());
     }
 
-    print("========================");
-    print(Get.find<List<RepositoryImagePair>>(tag: categoryIndex.toString())
-        .length);
+    // print("========================");
+    // print(Get.find<List<RepositoryImagePair>>(tag: categoryIndex.toString())
+    //     .length);
   }
 
   // ignore: unused_element
@@ -202,11 +206,6 @@ class LoginMgr {
       "pwg_token": token,
     });
 
-    // var response =
-    //     await Dio().post("http://jd.itying.com/imgupload", data: formData);
-    // //{"success":"true","path":"/public\\upload\\obhAbgmCB5tcp3wDrf9MsiOT.txt"}
-    // //http://jd.itying.com/upload/obhAbgmCB5tcp3wDrf9MsiOT.txt
-
     var response = await AppManager.dio.post(
         "http://${AppManager.getServer()}/piwigo/ws.php?method=pwg.images.delete&format=json",
         data: formData);
@@ -217,10 +216,6 @@ class LoginMgr {
   // ignore: unused_element
   static void deletedImages(List<int> imageIds,
       {String host, String token}) async {
-    //注意：dio3.x版本为了兼容web做了一些修改，上传图片的时候需要把File类型转换成String类型
-    // Dio dio = Dio();
-    // var cookieJar = CookieJar();
-    // dio.interceptors.add(CookieManager(cookieJar));
     token ??= Get.find<FmsDevice>().pwgToken;
     String ids = "";
     int idx = 0;
@@ -232,19 +227,31 @@ class LoginMgr {
 
     FormData formData = FormData.fromMap({
       "image_id": ids,
-      //"image_id": "44|45",
       "pwg_token": token,
     });
-
-    // var response =
-    //     await Dio().post("http://jd.itying.com/imgupload", data: formData);
-    // //{"success":"true","path":"/public\\upload\\obhAbgmCB5tcp3wDrf9MsiOT.txt"}
-    // //http://jd.itying.com/upload/obhAbgmCB5tcp3wDrf9MsiOT.txt
 
     var response = await AppManager.dio.post(
         "http://${AppManager.getServer()}/piwigo/ws.php?method=pwg.images.delete&format=json",
         data: formData);
 
+    print(response);
+  }
+
+  static void setCategoryInfo(int categoryId,
+      {String host, String name, String comment}) async {
+    Map<String, dynamic> params = {};
+    params["category_id"] = categoryId;
+    if (name != null) {
+      params["name"] = name;
+    }
+    if (comment != null) {
+      params["comment"] = comment;
+    }
+
+    FormData formData = FormData.fromMap(params);
+    var response = await AppManager.dio.post(
+        "http://${AppManager.getServer()}/piwigo/ws.php?method=pwg.categories.setInfo&format=json",
+        data: formData);
     print(response);
   }
 }
