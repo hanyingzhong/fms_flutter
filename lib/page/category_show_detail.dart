@@ -132,7 +132,7 @@ class _ImageTile extends StatelessWidget {
                 //   fit: BoxFit.fill,
                 // ),
 
-                child: _buildTile(imagePair),
+                child: _buildTile(imagePair, index: this.index),
                 //     child: FadeInImage.memoryNetwork(
                 //   placeholder: kTransparentImage,
                 //   image: Get.find<List<RepositoryCategory>>()[index]
@@ -155,11 +155,11 @@ class _ImageTile extends StatelessWidget {
     );
   }
 
-  Widget _buildTile(RepositoryImagePair imagePair) {
+  Widget _buildTile(RepositoryImagePair imagePair, {int index}) {
     return InkWell(
         onTap: () {
           print("tapped.");
-          Get.to(CategoryPhotoSwiperPage(categoryId));
+          Get.to(CategoryPhotoSwiperPage(categoryId, firstPhotoId: index));
         },
         child: Image(
           image: NetworkToFileImage(

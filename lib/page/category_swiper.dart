@@ -9,8 +9,9 @@ import 'package:network_to_file_image/network_to_file_image.dart';
 
 class CategoryPhotoSwiperPage extends StatelessWidget {
   final int categoryId;
+  final int firstPhotoId;
 
-  CategoryPhotoSwiperPage(this.categoryId);
+  CategoryPhotoSwiperPage(this.categoryId, {this.firstPhotoId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class CategoryPhotoSwiperPage extends StatelessWidget {
           title: Text("ExampleHorizontal"),
         ),
         body: Swiper(
+          index: firstPhotoId,
           itemBuilder: (BuildContext context, int index) {
             return Image(
               image: NetworkToFileImage(
