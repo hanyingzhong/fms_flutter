@@ -8,6 +8,8 @@ import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/test/colorsort.dart';
+import 'package:fms_flutter/test/draggridview.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -108,6 +110,16 @@ class _TestPageState extends State<TestPage> {
                   LoginMgr.deletedImage(43);
                   List<int> ids = [100, 101];
                   LoginMgr.deletedImages(ids);
+                }),
+            RaisedButton(
+                child: const Text('ColorSort'),
+                onPressed: () {
+                  Get.to(ColorSortPage());
+                }),
+            RaisedButton(
+                child: const Text('DraggbaleGridView'),
+                onPressed: () {
+                  Get.to(DragAbleGridViewDemo());
                 }),
             //GridView(),
           ],
