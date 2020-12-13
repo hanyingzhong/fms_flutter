@@ -77,11 +77,11 @@ class ColorSortPage extends StatefulWidget {
 
 class _ReorderableListViewDemoState extends State<ColorSortPage> {
   final boxes = [
-    Box(Colors.blue[100], UniqueKey()),
-    Box(Colors.blue[300], UniqueKey()),
-    Box(Colors.blue[500], UniqueKey()),
-    Box(Colors.blue[700], UniqueKey()),
-    Box(Colors.blue[900], UniqueKey()),
+    Box(Colors.blue[100], 50, 200, UniqueKey()),
+    Box(Colors.blue[300], 100, 200, UniqueKey()),
+    Box(Colors.blue[500], 150, 200, UniqueKey()),
+    Box(Colors.blue[700], 200, 200, UniqueKey()),
+    Box(Colors.blue[900], 250, 200, UniqueKey()),
   ];
 
   _shuffle() {
@@ -94,7 +94,7 @@ class _ReorderableListViewDemoState extends State<ColorSortPage> {
     return Scaffold(
       appBar: AppBar(title: Text('移动容器，重新排列')),
       body: Center(
-          child: Row(
+          child: Stack(
         children: boxes,
       )),
       floatingActionButton: FloatingActionButton(
@@ -107,28 +107,33 @@ class _ReorderableListViewDemoState extends State<ColorSortPage> {
 
 class Box extends StatelessWidget {
   final Color color;
-  Box(this.color, Key key) : super(key: key);
+  final double x, y;
+  Box(this.color, this.x, this.y, Key key) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Draggable(
-      child: Container(
-        margin: EdgeInsets.all(8.0),
-        width: 50,
-        height: 50,
-        color: color,
-      ),
-      feedback: Container(
-        margin: EdgeInsets.all(8.0),
-        width: 50,
-        height: 50,
-        color: color,
-      ),
-      childWhenDragging: Container(
-        margin: EdgeInsets.all(8.0),
-        width: 50,
-        height: 50,
-      ),
-    );
+    return AnimatedPositioned(
+        duration: Duration(seconds: 1),
+        left: x,
+        top: y,
+        child: Draggable(
+          child: Container(
+            margin: EdgeInsets.all(8.0),
+            width: 50,
+            height: 50,
+            color: color,
+          ),
+          feedback: Container(
+            margin: EdgeInsets.all(8.0),
+            width: 50,
+            height: 50,
+            color: color,
+          ),
+          childWhenDragging: Container(
+            margin: EdgeInsets.all(8.0),
+            width: 50,
+            height: 50,
+          ),
+        ));
   }
 }
