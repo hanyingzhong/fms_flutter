@@ -100,11 +100,19 @@ class _ReorderableListViewDemoState extends State<ColorSortPage> {
             final x = event.position.dx;
             print("$_slot " + x.toString());
             if (x > (_slot + 1) * Box.width) {
+              if (_slot == _colors.length - 1) return;
               setState(() {
                 final c = _colors[_slot];
                 _colors[_slot] = _colors[_slot + 1];
                 _colors[_slot + 1] = c;
                 _slot++;
+              });
+            } else if (x < _slot * Box.width) {
+              setState(() {
+                final c = _colors[_slot];
+                _colors[_slot] = _colors[_slot - 1];
+                _colors[_slot - 1] = c;
+                _slot--;
               });
             }
           },
@@ -138,6 +146,14 @@ class Box extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final container = Container(
+      margin: EdgeInsets.all(8.0),
+      width: width - margin * 2,
+      height: height - margin * 2,
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(8.0)),
+    );
+
     return AnimatedPositioned(
         duration: Duration(milliseconds: 500),
         left: x,
@@ -146,23 +162,9 @@ class Box extends StatelessWidget {
           onDragStarted: () {
             onDrag(color);
           },
-          child: Container(
-            margin: EdgeInsets.all(8.0),
-            width: width - margin * 2,
-            height: height - margin * 2,
-            color: color,
-          ),
-          feedback: Container(
-            margin: EdgeInsets.all(8.0),
-            width: width - margin * 2,
-            height: height - margin * 2,
-            color: color,
-          ),
-          childWhenDragging: Container(
-            margin: EdgeInsets.all(8.0),
-            width: width - margin * 2,
-            height: height - margin * 2,
-          ),
+          child: container,
+          feedback: container,
+          childWhenDragging: Visibility(visible: false, child: container),
         ));
   }
 }
