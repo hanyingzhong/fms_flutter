@@ -76,27 +76,47 @@ class ColorSortPage extends StatefulWidget {
 }
 
 class _ReorderableListViewDemoState extends State<ColorSortPage> {
-  final boxes = [
-    Box(Colors.blue[100], 50, 200, UniqueKey()),
-    Box(Colors.blue[300], 100, 200, UniqueKey()),
-    Box(Colors.blue[500], 150, 200, UniqueKey()),
-    Box(Colors.blue[700], 200, 200, UniqueKey()),
-    Box(Colors.blue[900], 250, 200, UniqueKey()),
+  final _colors = [
+    Colors.blue[100],
+    Colors.blue[300],
+    Colors.blue[500],
+    Colors.blue[700],
+    Colors.blue[900],
   ];
 
+  int _slot;
+
   _shuffle() {
-    print("===========");
-    setState(() => boxes.shuffle());
+    setState(() => _colors.shuffle());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('移动容器，重新排列')),
-      body: Center(
+      body: Listener(
+          onPointerMove: (event) {
+            print(event);
+            final x = event.position.dx;
+            print("$_slot " + x.toString());
+            if (x > (_slot + 1) * Box.width) {
+              setState(() {
+                final c = _colors[_slot];
+                _colors[_slot] = _colors[_slot + 1];
+                _colors[_slot + 1] = c;
+                _slot++;
+              });
+            }
+          },
           child: Stack(
-        children: boxes,
-      )),
+              children: List.generate(_colors.length, (index) {
+            return Box(_colors[index], index * Box.width, 200, (Color color) {
+              final i = _colors.indexOf(color);
+              print(i);
+              _slot = i;
+              //ValueKey is important...must be const..
+            }, ValueKey(_colors[index]));
+          }))),
       floatingActionButton: FloatingActionButton(
         onPressed: _shuffle,
         child: Icon(Icons.add),
@@ -106,33 +126,42 @@ class _ReorderableListViewDemoState extends State<ColorSortPage> {
 }
 
 class Box extends StatelessWidget {
+  static const width = 50.0;
+  static const height = 150.0;
+  static const margin = 2.0;
+
   final Color color;
   final double x, y;
-  Box(this.color, this.x, this.y, Key key) : super(key: key);
+  final Function(Color color) onDrag;
+
+  Box(this.color, this.x, this.y, this.onDrag, Key key) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
-        duration: Duration(seconds: 1),
+        duration: Duration(milliseconds: 500),
         left: x,
         top: y,
         child: Draggable(
+          onDragStarted: () {
+            onDrag(color);
+          },
           child: Container(
             margin: EdgeInsets.all(8.0),
-            width: 50,
-            height: 50,
+            width: width - margin * 2,
+            height: height - margin * 2,
             color: color,
           ),
           feedback: Container(
             margin: EdgeInsets.all(8.0),
-            width: 50,
-            height: 50,
+            width: width - margin * 2,
+            height: height - margin * 2,
             color: color,
           ),
           childWhenDragging: Container(
             margin: EdgeInsets.all(8.0),
-            width: 50,
-            height: 50,
+            width: width - margin * 2,
+            height: height - margin * 2,
           ),
         ));
   }
