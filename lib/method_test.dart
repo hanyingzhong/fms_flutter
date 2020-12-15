@@ -10,6 +10,7 @@ import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/test/colorsort.dart';
 import 'package:fms_flutter/test/draggridview.dart';
+import 'package:fms_flutter/test/globalkey.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -120,6 +121,11 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('DraggbaleGridView'),
                 onPressed: () {
                   Get.to(DragAbleGridViewDemo());
+                }),
+            RaisedButton(
+                child: const Text('GlobalKey'),
+                onPressed: () {
+                  Get.to(GlobalKeyTestPage());
                 }),
             //GridView(),
           ],
