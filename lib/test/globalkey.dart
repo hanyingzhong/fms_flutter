@@ -21,23 +21,18 @@ class _GlobalKeyTestPageState extends State<GlobalKeyTestPage> {
         title: Text("dd"),
       ),
       body: Center(
-          child: MediaQuery.of(context).orientation == Orientation.landscape
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Counter(48, k1),
-                    Counter(48, k2),
-                    Counter(72, k3),
-                  ],
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Counter(48, k1),
-                    Counter(48, k2),
-                    Counter(72, k3),
-                  ],
-                )),
+        child: Flex(
+          direction: MediaQuery.of(context).orientation == Orientation.landscape
+              ? Axis.horizontal
+              : Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Counter(48, k1),
+            Counter(48, k2),
+            Counter(72, k3),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _increaseCount();
