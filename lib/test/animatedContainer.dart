@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
 
 class AnimatedContanerPage extends StatefulWidget {
   @override
@@ -15,12 +16,20 @@ class _AnimatedContanerPageState extends State<AnimatedContanerPage> {
                 duration: Duration(microseconds: 5000),
                 width: 300,
                 height: 500,
-                child: Center(
-                  child: Center(
-                    child: Text(
-                      "welcome",
-                      style: TextStyle(fontSize: 70),
-                    ),
+                child: AnimatedSwitcher(
+                  //AnimatedCrossFade
+                  transitionBuilder: (child, animation) {
+                    //return FadeTransition(opacity: animation, child: child);
+                    //return RotationTransition(turns: animation, child: child);
+                    return FadeTransition(
+                        opacity: animation,
+                        child: ScaleTransition(scale: animation, child: child));
+                  },
+                  duration: Duration(seconds: 2),
+                  child: Text(
+                    "aaadd",
+                    key: UniqueKey(),
+                    style: TextStyle(fontSize: 70),
                   ),
                 ),
                 decoration: BoxDecoration(

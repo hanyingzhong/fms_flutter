@@ -45,6 +45,7 @@ class _DeviceManagePageState extends State<DeviceManagePage> {
       AppManager.prefs.setString('CurrDeivceInfo', currDeviceInfo);
 
       print(AppManager.prefs.getString('CurrDeivceInfo'));
+      Get.back();
     }
   }
 
