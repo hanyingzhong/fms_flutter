@@ -27,7 +27,7 @@ Widget getDeviceInfo() {
               Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: Text(
-                    Get.find<FmsDevice>().name,
+                    Get.find<FmsDevice>()?.name ?? "no deivce",
                     style: TextStyle(fontSize: 18),
                   )),
               Spacer(
@@ -36,7 +36,7 @@ Widget getDeviceInfo() {
               Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: Text(
-                    Get.find<FmsDevice>().host,
+                    Get.find<FmsDevice>()?.host ?? "no device",
                     style: TextStyle(fontSize: 18),
                   )),
               Spacer(
@@ -44,7 +44,7 @@ Widget getDeviceInfo() {
               ),
               Offstage(
                   offstage: false,
-                  child: Text(Get.find<FmsDevice>().username,
+                  child: Text(Get.find<FmsDevice>()?.username ?? "no device",
                       style: TextStyle(fontSize: 18))),
               Spacer(
                 flex: 1,

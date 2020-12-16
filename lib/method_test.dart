@@ -8,6 +8,7 @@ import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/test/animatedContainer.dart';
 import 'package:fms_flutter/test/colorsort.dart';
 import 'package:fms_flutter/test/draggridview.dart';
 import 'package:fms_flutter/test/globalkey.dart';
@@ -126,6 +127,11 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('GlobalKey'),
                 onPressed: () {
                   Get.to(GlobalKeyTestPage());
+                }),
+            RaisedButton(
+                child: const Text('animatedContainer'),
+                onPressed: () {
+                  Get.to(AnimatedContanerPage());
                 }),
             //GridView(),
           ],
