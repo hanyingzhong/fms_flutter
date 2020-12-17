@@ -7,6 +7,7 @@ class AnimationCounterPage extends StatefulWidget {
 
 class _AninationCounterPageState extends State<AnimationCounterPage> {
   bool _big = false;
+  var _counter = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,8 @@ class _AninationCounterPageState extends State<AnimationCounterPage> {
       body: TweenAnimationBuilder(
         duration: Duration(seconds: 2),
         //curve: Curves.bounceInOut,
-        tween: Tween(begin: 7.0, end: 9.0), //begin only usefil at first....
+        tween:
+            Tween(begin: 0.0, end: _counter), //begin only usefil at first....
         builder: (BuildContext context, value, Widget child) {
           final whole = value ~/ 1;
           final decimal = value - whole;
@@ -49,7 +51,7 @@ class _AninationCounterPageState extends State<AnimationCounterPage> {
         child: Icon(Icons.add),
         onPressed: () {
           setState(() {
-            _big = !_big;
+            _counter++;
           });
         },
       ),
