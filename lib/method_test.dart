@@ -9,9 +9,12 @@ import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/test/animatedContainer.dart';
+import 'package:fms_flutter/test/animatedCounter.dart';
+import 'package:fms_flutter/test/animatedOpacity.dart';
 import 'package:fms_flutter/test/colorsort.dart';
 import 'package:fms_flutter/test/draggridview.dart';
 import 'package:fms_flutter/test/globalkey.dart';
+import 'package:fms_flutter/test/tweenanimation.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
 import 'package:get/get.dart';
@@ -132,6 +135,21 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('animatedContainer'),
                 onPressed: () {
                   Get.to(AnimatedContanerPage());
+                }),
+            RaisedButton(
+                child: const Text('Opacity&Padding'),
+                onPressed: () {
+                  Get.to(AnimatedOpcityPage());
+                }),
+            RaisedButton(
+                child: const Text('tween animation'),
+                onPressed: () {
+                  Get.to(TweenAninationPage());
+                }),
+            RaisedButton(
+                child: const Text('counter animation'),
+                onPressed: () {
+                  Get.to(AnimationCounterPage());
                 }),
             //GridView(),
           ],
