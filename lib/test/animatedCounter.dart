@@ -6,7 +6,6 @@ class AnimationCounterPage extends StatefulWidget {
 }
 
 class _AninationCounterPageState extends State<AnimationCounterPage> {
-  bool _big = false;
   var _counter = 0.0;
 
   @override

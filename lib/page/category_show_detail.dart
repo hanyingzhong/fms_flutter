@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fms_flutter/page/category_swiper.dart';
@@ -156,19 +157,50 @@ class _ImageTile extends StatelessWidget {
   }
 
   Widget _buildTile(RepositoryImagePair imagePair, {int index}) {
-    return InkWell(
-        onTap: () {
-          print("tapped.");
-          Get.to(CategoryPhotoSwiperPage(categoryId, firstPhotoId: index));
-        },
-        child: Image(
+    // return InkWell(
+    //     onTap: () {
+    //       print("tapped.");
+    //       Get.to(CategoryPhotoSwiperPage(categoryId, firstPhotoId: index));
+    //     },
+    //     child: Image(
+    //       image: NetworkToFileImage(
+    //         url: imagePair.network.large.location,
+    //         file: File(imagePair.local.large.location),
+    //         debug: true,
+    //       ),
+    //       fit: BoxFit.cover,
+    //     ));
+
+    return OpenContainer(
+      closedBuilder: (context, action) {
+        return Image(
           image: NetworkToFileImage(
             url: imagePair.network.large.location,
             file: File(imagePair.local.large.location),
             debug: true,
           ),
           fit: BoxFit.cover,
-        ));
+        );
+      },
+      //过渡的方式
+      transitionType: ContainerTransitionType.fade,
+      //过渡的时间
+      transitionDuration: const Duration(milliseconds: 1000),
+
+      //即将打开的 Widget 的边框样式
+      openShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(1.0)),
+      ),
+      //即将打开的 Widget 的背景
+      openColor: Colors.transparent,
+      //阴影
+      openElevation: 1.0,
+      //布局
+      openBuilder: (context, action) {
+        return CategoryPhotoSwiperPage(categoryId, firstPhotoId: index);
+      },
+    );
+
     // return FadeInImage.memoryNetwork(
     //   placeholder: kTransparentImage,
     //   image: element.local.thumb.location,
