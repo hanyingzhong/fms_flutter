@@ -1,3 +1,4 @@
+import 'package:counter_animation/counter_animation.dart';
 import 'package:flutter/material.dart';
 
 class AnimationCounterPage extends StatefulWidget {
@@ -12,40 +13,29 @@ class _AninationCounterPageState extends State<AnimationCounterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: TweenAnimationBuilder(
-        duration: Duration(seconds: 2),
-        //curve: Curves.bounceInOut,
-        tween:
-            Tween(begin: 0.0, end: _counter), //begin only usefil at first....
-        builder: (BuildContext context, value, Widget child) {
-          final whole = value ~/ 1;
-          final decimal = value - whole;
-          return Center(
-              child: Container(
-                  width: 300,
-                  height: 120,
-                  child: Stack(children: [
-                    Positioned(
-                      top: -100 * decimal,
-                      child: Opacity(
-                          opacity: 1.0 - decimal,
-                          child: Text(
-                            "$whole",
-                            style: TextStyle(fontSize: 100),
-                          )),
-                    ),
-                    Positioned(
-                      top: 100 - 100 * decimal,
-                      child: Opacity(
-                          opacity: 1.0 * decimal,
-                          child: Text(
-                            "${whole + 1}",
-                            style: TextStyle(fontSize: 100),
-                          )),
-                    ),
-                  ])));
-        },
-      ),
+      body: Center(
+          child: Container(
+              width: 400,
+              height: 120,
+              child: Row(children: <Widget>[
+                AnimationCounter(
+                  duration: Duration(milliseconds: 500),
+                  value: _counter ~/ 100,
+                ),
+                AnimationCounter(
+                  duration: Duration(milliseconds: 500),
+                  value: _counter ~/ 10,
+                ),
+                AnimationCounter(
+                    duration: Duration(milliseconds: 500),
+                    value: _counter.toInt()),
+                // CounterAnimation(
+                //     begin: 0,
+                //     end: 100,
+                //     duration: 5,
+                //     curve: Curves.easeOut,
+                //     textStyle: TextStyle(fontSize: 70)),
+              ]))),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -55,5 +45,48 @@ class _AninationCounterPageState extends State<AnimationCounterPage> {
         },
       ),
     );
+  }
+}
+
+class AnimationCounter extends StatelessWidget {
+  final Duration duration;
+  final int value;
+
+  AnimationCounter({@required this.duration, @required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: TweenAnimationBuilder(
+      duration: duration,
+      //curve: Curves.bounceInOut,
+      tween: Tween(
+          begin: 0.0,
+          end: this.value.toDouble()), //begin only usefil at first....
+      builder: (BuildContext context, value, Widget child) {
+        final whole = value ~/ 1;
+        final decimal = value - whole;
+        return Stack(children: [
+          Positioned(
+            top: -100 * decimal,
+            child: Opacity(
+                opacity: 1.0 - decimal,
+                child: Text(
+                  "${whole % 10}",
+                  style: TextStyle(fontSize: 100),
+                )),
+          ),
+          Positioned(
+            top: 100 - 100 * decimal,
+            child: Opacity(
+                opacity: 1.0 * decimal,
+                child: Text(
+                  "${(whole + 1) % 10}",
+                  style: TextStyle(fontSize: 100),
+                )),
+          ),
+        ]);
+      },
+    ));
   }
 }
