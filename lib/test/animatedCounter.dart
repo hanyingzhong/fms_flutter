@@ -1,4 +1,3 @@
-import 'package:counter_animation/counter_animation.dart';
 import 'package:flutter/material.dart';
 
 class AnimationCounterPage extends StatefulWidget {

@@ -9,6 +9,7 @@ import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
 import 'package:fms_flutter/test/animatedContainer.dart';
+import 'package:fms_flutter/test/animatedController1.dart';
 import 'package:fms_flutter/test/animatedCounter.dart';
 import 'package:fms_flutter/test/animatedOpacity.dart';
 import 'package:fms_flutter/test/colorsort.dart';
@@ -150,6 +151,11 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('counter animation'),
                 onPressed: () {
                   Get.to(AnimationCounterPage());
+                }),
+            RaisedButton(
+                child: const Text('animationController rotation'),
+                onPressed: () {
+                  Get.to(AnimationController1Page());
                 }),
             //GridView(),
           ],
