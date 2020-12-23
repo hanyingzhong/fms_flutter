@@ -15,6 +15,7 @@ import 'package:fms_flutter/test/animatedOpacity.dart';
 import 'package:fms_flutter/test/colorsort.dart';
 import 'package:fms_flutter/test/draggridview.dart';
 import 'package:fms_flutter/test/globalkey.dart';
+import 'package:fms_flutter/test/slideTransitions.dart';
 import 'package:fms_flutter/test/tweenanimation.dart';
 import 'package:fms_flutter/util/app_manager.dart';
 import 'package:fms_flutter/util/dio_util.dart';
@@ -157,7 +158,11 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   Get.to(AnimationController1Page());
                 }),
-            //GridView(),
+            RaisedButton(
+                child: const Text('slide transition'),
+                onPressed: () {
+                  Get.to(SlidesTransitionsPage());
+                }), //GridView(),
           ],
         ));
   }
