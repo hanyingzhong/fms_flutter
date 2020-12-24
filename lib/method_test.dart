@@ -8,6 +8,7 @@ import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/test/animatedBuilder.dart';
 import 'package:fms_flutter/test/animatedContainer.dart';
 import 'package:fms_flutter/test/animatedController1.dart';
 import 'package:fms_flutter/test/animatedCounter.dart';
@@ -163,6 +164,11 @@ class _TestPageState extends State<TestPage> {
                 onPressed: () {
                   Get.to(SlidesTransitionsPage());
                 }), //GridView(),
+            RaisedButton(
+                child: const Text('animated builder'),
+                onPressed: () {
+                  Get.to(AnimatedBuilderPage());
+                }), //
           ],
         ));
   }

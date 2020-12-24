@@ -12,15 +12,16 @@ class _SlidesTransitionsPageState extends State<SlidesTransitionsPage>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: Duration(milliseconds: 2000), vsync: this);
-    _controller.repeat(reverse: true);
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 2000), vsync: this)
+          ..repeat(reverse: true);
+    //_controller.repeat(reverse: true);
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,10 +65,11 @@ class SliderTransitionBox extends StatelessWidget {
       child: SlideTransition(
         position: Tween(begin: Offset.zero, end: Offset(0.15, 0))
             .chain(CurveTween(curve: interval))
+            .chain(CurveTween(curve: Curves.bounceInOut))
             .animate(controller),
         child: Container(
           width: 300,
-          height: 100,
+          height: 80,
           color: color,
         ),
       ),
