@@ -8,11 +8,13 @@ import 'package:fms_flutter/page/category_show_detail.dart';
 import 'package:fms_flutter/plugin/staggered_gridview_test.dart';
 import 'package:fms_flutter/provider/devicemgr_model.dart';
 import 'package:fms_flutter/repository/repo_categories.dart';
+import 'package:fms_flutter/test/2-7-478.dart';
 import 'package:fms_flutter/test/animatedBuilder.dart';
 import 'package:fms_flutter/test/animatedContainer.dart';
 import 'package:fms_flutter/test/animatedController1.dart';
 import 'package:fms_flutter/test/animatedCounter.dart';
 import 'package:fms_flutter/test/animatedOpacity.dart';
+import 'package:fms_flutter/test/chip.dart';
 import 'package:fms_flutter/test/colorsort.dart';
 import 'package:fms_flutter/test/draggridview.dart';
 import 'package:fms_flutter/test/globalkey.dart';
@@ -168,6 +170,16 @@ class _TestPageState extends State<TestPage> {
                 child: const Text('animated builder'),
                 onPressed: () {
                   Get.to(AnimatedBuilderPage());
+                }), //
+            RaisedButton(
+                child: const Text('chip'),
+                onPressed: () {
+                  Get.to(FMChipVC());
+                }), //
+            RaisedButton(
+                child: const Text('chip'),
+                onPressed: () {
+                  Get.to(Test27478());
                 }), //
           ],
         ));
